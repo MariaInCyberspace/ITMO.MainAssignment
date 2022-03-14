@@ -1,14 +1,10 @@
-package com.mariaincyberspace.lostandfound_1;
+package com.mariaincyberspace.lostandfound_1.presentation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
-import android.view.WindowManager;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.navigation.NavController;
@@ -19,6 +15,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {

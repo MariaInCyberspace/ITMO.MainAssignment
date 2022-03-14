@@ -1,4 +1,4 @@
-package com.mariaincyberspace.lostandfound_1;
+package com.mariaincyberspace.lostandfound_1.domain.model;
 
 public class User {
     public User() { }

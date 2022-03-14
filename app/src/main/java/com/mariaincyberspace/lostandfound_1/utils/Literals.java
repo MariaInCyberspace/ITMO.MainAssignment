@@ -1,4 +1,4 @@
-package com.mariaincyberspace.lostandfound_1;
+package com.mariaincyberspace.lostandfound_1.utils;
 
 public class Literals {
     public static final String USER_KEY = "Users";

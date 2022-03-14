@@ -1,4 +1,4 @@
-package com.mariaincyberspace.lostandfound_1.ui.gallery;
+package com.mariaincyberspace.lostandfound_1.presentation.ui.gallery;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.databinding.FragmentGalleryBinding;
 
 public class GalleryFragment extends Fragment {

@@ -1,4 +1,4 @@
-package com.mariaincyberspace.lostandfound_1.ui.slideshow;
+package com.mariaincyberspace.lostandfound_1.presentation.ui.slideshow;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.databinding.FragmentSlideshowBinding;
 
 public class SlideshowFragment extends Fragment {

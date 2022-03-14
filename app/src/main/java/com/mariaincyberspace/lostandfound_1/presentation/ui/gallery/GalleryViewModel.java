@@ -1,4 +1,4 @@
-package com.mariaincyberspace.lostandfound_1.ui.gallery;
+package com.mariaincyberspace.lostandfound_1.presentation.ui.gallery;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

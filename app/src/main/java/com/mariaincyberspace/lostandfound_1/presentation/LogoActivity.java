@@ -1,4 +1,4 @@
-package com.mariaincyberspace.lostandfound_1;
+package com.mariaincyberspace.lostandfound_1.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.view.WindowManager;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.mariaincyberspace.lostandfound_1.R;
+import com.mariaincyberspace.lostandfound_1.presentation.auth.LoginActivity;
 
 public class LogoActivity extends AppCompatActivity {
 

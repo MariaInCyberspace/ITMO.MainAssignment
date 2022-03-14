@@ -7,25 +7,25 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.mariaincyberspace.lostandfound_1.ui.home.HomeFragment"
+        android:name="com.mariaincyberspace.lostandfound_1.presentation.ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_gallery"
-        android:name="com.mariaincyberspace.lostandfound_1.ui.gallery.GalleryFragment"
+        android:name="com.mariaincyberspace.lostandfound_1.presentation.ui.gallery.GalleryFragment"
         android:label="@string/menu_gallery"
         tools:layout="@layout/fragment_gallery" />
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="com.mariaincyberspace.lostandfound_1.ui.slideshow.SlideshowFragment"
+        android:name="com.mariaincyberspace.lostandfound_1.presentation.ui.slideshow.SlideshowFragment"
         android:label="@string/menu_slideshow"
         tools:layout="@layout/fragment_slideshow" />
 
     <activity
         android:id="@+id/nav_login"
-        android:name="com.mariaincyberspace.lostandfound_1.LoginActivity"
+        android:name="com.mariaincyberspace.lostandfound_1.presentation.auth.LoginActivity"
         android:label="@string/login_button"
         tools:layout="@layout/activity_login" />
 
