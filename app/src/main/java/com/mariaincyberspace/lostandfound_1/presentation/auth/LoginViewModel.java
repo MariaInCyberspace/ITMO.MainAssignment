@@ -12,11 +12,9 @@ import androidx.lifecycle.MutableLiveData;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
-import com.mariaincyberspace.lostandfound_1.domain.repository.AuthenticationRepository;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 
 
 public class LoginViewModel extends AndroidViewModel {

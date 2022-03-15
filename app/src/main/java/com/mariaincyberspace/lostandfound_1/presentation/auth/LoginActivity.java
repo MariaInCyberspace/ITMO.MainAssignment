@@ -44,7 +44,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
    public void onClickSignUp(View view) {
-
        if (!TextUtils.isEmpty(emailEditText.getText().toString())
                && !TextUtils.isEmpty(passwordEditText.getText().toString())) {
            viewModel.signUp(emailEditText.getText().toString(), passwordEditText.getText().toString())
@@ -63,7 +62,6 @@ public class LoginActivity extends AppCompatActivity {
    }
 
    public void onClickSignIn(View view) {
-
         if (!TextUtils.isEmpty(emailEditText.getText().toString())
                 && !TextUtils.isEmpty(passwordEditText.getText().toString())) {
             viewModel.signIn(emailEditText.getText().toString(), passwordEditText.getText().toString())
