@@ -47,10 +47,6 @@ public class LoginViewModel extends AndroidViewModel {
         return repository.signIn(email, password);
     }
 
-    public void signOut(String email, String password) {
-        repository.signOut();
-    }
-
 
     public void verifyInput(EditText email, EditText password) {
         String values;

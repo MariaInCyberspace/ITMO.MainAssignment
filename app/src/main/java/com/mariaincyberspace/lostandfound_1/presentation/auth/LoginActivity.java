@@ -80,8 +80,8 @@ public class LoginActivity extends AppCompatActivity {
    // todo : add users/items repository
    private void addToDatabase() {
         firebaseUser = auth.getCurrentUser();
-        User user = new User(emailEditText.getText().toString(), passwordEditText.getText().toString());
-        reference.child(firebaseUser.getUid()).setValue(user).addOnCompleteListener(task -> {
+        User user = new User(firebaseUser.getUid(), emailEditText.getText().toString(), passwordEditText.getText().toString());
+        reference.child(user.getUid()).setValue(user).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(LoginActivity.this, Literals.TOAST_VALUES_STORED,
                         Toast.LENGTH_LONG).show();

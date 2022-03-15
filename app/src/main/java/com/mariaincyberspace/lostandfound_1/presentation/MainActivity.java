@@ -16,7 +16,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.mariaincyberspace.lostandfound_1.R;
+import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.databinding.ActivityMainBinding;
+import com.mariaincyberspace.lostandfound_1.domain.use_case.SignOut;
+import com.mariaincyberspace.lostandfound_1.presentation.auth.LoginViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
     private FirebaseAuth auth;
+    private AuthenticationRepositoryImpl repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        repository = new AuthenticationRepositoryImpl(getApplication());
     }
 
     @Override
@@ -64,9 +70,14 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onClickSignOut(MenuItem item) {
-        auth.signOut();
+        new SignOut(repository).signOut();
         Intent i = new Intent(MainActivity.this, LogoActivity.class);
         finish();
         startActivity(i);
     }
+
+    public void onClickAddItem(MenuItem item) {
+
+    }
+
 }

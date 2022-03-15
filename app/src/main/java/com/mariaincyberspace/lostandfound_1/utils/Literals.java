@@ -2,6 +2,7 @@ package com.mariaincyberspace.lostandfound_1.utils;
 
 public class Literals {
     public static final String USER_KEY = "Users";
+    public static final String ITEM_KEY = "Items";
     public static final String TOAST_USER_SIGNED_UP = "User signed up";
     public static final String TOAST_USER_NOT_SIGNED_UP = "User not signed up";
     public static final String TOAST_USER_LOGGED_IN = "User logged in";
@@ -10,7 +11,10 @@ public class Literals {
     public static final String TOAST_VALUES_NOT_STORED = "Values could not be stored";
     public static final String TOAST_INPUT_PROMPT = "Please input ";
     public static final String TOAST_INPUT_EMAIL_AND_PASSWORD = "email and password";
+    public static final String TOAST_ITEM_ADDED_SUCCESS = "Item added successfully";
+    public static final String TOAST_ITEM_NOT_ADDED = "Failed to add item";
     public static final String TOAST_INPUT_EMAIL = "email";
     public static final String TOAST_INPUT_PASSWORD = "password";
+
 
 }

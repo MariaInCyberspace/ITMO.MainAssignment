@@ -68,8 +68,6 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
                     if (task.isSuccessful()) {
                         Toast.makeText(application,
                                 Literals.TOAST_USER_LOGGED_IN, Toast.LENGTH_LONG).show();
-//                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(i);
                     }
                     else {
                         Toast.makeText(application,

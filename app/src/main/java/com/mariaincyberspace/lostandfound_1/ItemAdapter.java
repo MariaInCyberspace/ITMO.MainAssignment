@@ -1,32 +1,32 @@
 package com.mariaincyberspace.lostandfound_1;
 
+import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.helper.widget.Layer;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 
-public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemHolder> {
+import java.util.ArrayList;
 
-    class ItemHolder extends RecyclerView.ViewHolder {
 
-        public ItemHolder(@NonNull View itemView) {
-            super(itemView);
-        }
-    }
+// todo: finish writing this class
+public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
-    protected ItemAdapter(@NonNull DiffUtil.ItemCallback diffCallback) {
-        super(diffCallback);
-    }
-
+    Context context;
+    ArrayList<Item> list;
 
     @NonNull
     @Override
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // todo: create item xml to be specified in here
         return null;
     }
 
@@ -35,5 +35,20 @@ public class ItemAdapter extends ListAdapter<Item, ItemAdapter.ItemHolder> {
 
     }
 
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+    public static class ItemHolder extends RecyclerView.ViewHolder {
+
+        TextView name, description;
+
+        public ItemHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        // todo: find text views by id
+    }
 
 }
