@@ -7,8 +7,7 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_add"
-            android:icon="@drawable/ic_logout"
-            android:onClick="onClickAddItem"
+            android:icon="@drawable/ic_add_item"
             android:title="@string/add_lost_item" />
         <item
             android:id="@+id/nav_home"
