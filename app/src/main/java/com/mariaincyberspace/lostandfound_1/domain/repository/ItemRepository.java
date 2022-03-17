@@ -5,6 +5,6 @@ import java.util.List;
 
 public interface ItemRepository {
     public List<Item> getItems();
-    public void addItem(Item item);
+    public void addItem(Item item, String userId);
     public void deleteItem(Item item);
 }

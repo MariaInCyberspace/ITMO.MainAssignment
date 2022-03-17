@@ -30,8 +30,8 @@ public class ItemRepositoryImpl implements ItemRepository {
     }
 
     @Override
-    public void addItem(Item item) {
-        itemRef.child(item.getUserId()).child(item.getName()).setValue(item).addOnCompleteListener(task -> {
+    public void addItem(Item item, String userId) {
+        itemRef.child(userId).child(item.getName()).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(application,
                         Literals.TOAST_ITEM_ADDED_SUCCESS, Toast.LENGTH_LONG).show();

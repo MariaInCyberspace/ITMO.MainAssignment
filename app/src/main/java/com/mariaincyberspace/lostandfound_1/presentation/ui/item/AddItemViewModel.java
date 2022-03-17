@@ -47,10 +47,6 @@ public class AddItemViewModel extends AndroidViewModel {
         return mText;
     }
 
-//    public void addItem(Item item) {
-//        itemRepository.addItem(item);
-//    }
-
     public void uploadPicture(Uri uri, String itemName, Location location) {
         StorageReference fileRef = storage.child(System.currentTimeMillis() + "aaa." + getFileExtension(uri));
         fileRef.putFile(uri).addOnSuccessListener(taskSnapshot
@@ -58,10 +54,9 @@ public class AddItemViewModel extends AndroidViewModel {
                 .addOnSuccessListener(uri1
                         -> {
                                 Item item = new Item(itemName,
-                                        authenticationRepository.getCurrentFirebaseUser().getUid().toString(),
                                         location.getLatitude(), location.getLongitude(),
                                         uri1.toString());
-                                itemRepository.addItem(item);
+                                itemRepository.addItem(item, authenticationRepository.getCurrentFirebaseUser().getUid().toString());
 
                                 Toast.makeText(getApplication(),
                                 "Upload successful", Toast.LENGTH_LONG).show();
