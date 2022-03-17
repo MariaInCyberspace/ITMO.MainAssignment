@@ -7,10 +7,8 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
-import android.location.Geocoder;
 import android.location.Location;
 
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +29,8 @@ public class MapsFragment extends Fragment {
 
     FusedLocationProviderClient fusedLocationProviderClient;
     double currentLat = 0, currentLong = 0;
+    AddItemViewModel viewModel;
+    com.mariaincyberspace.lostandfound_1.domain.model.Location location;
 
     @Nullable
     @Override
@@ -44,6 +44,7 @@ public class MapsFragment extends Fragment {
                 getChildFragmentManager().findFragmentById(R.id.map);
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity().getApplication());
+        viewModel = new AddItemViewModel(requireActivity().getApplication());
         getCurrentLocation();
 
         assert supportMapFragment != null;
@@ -65,6 +66,8 @@ public class MapsFragment extends Fragment {
                         latLng, 10
                 ));
                 googleMap.addMarker(markerOptions);
+                this.location = new com.mariaincyberspace.lostandfound_1.domain.model
+                        .Location(latLng.latitude, latLng.longitude);
             });
         });
 
@@ -72,6 +75,9 @@ public class MapsFragment extends Fragment {
     }
 
 
+    public com.mariaincyberspace.lostandfound_1.domain.model.Location getLocation() {
+        return location;
+    }
 
 
     private void getCurrentLocation() {

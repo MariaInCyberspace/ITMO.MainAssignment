@@ -1,6 +1,7 @@
 package com.mariaincyberspace.lostandfound_1.data.repository;
 
 import android.app.Application;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
@@ -30,14 +31,16 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public void addItem(Item item) {
-        itemRef.child(item.getUser().getUid()).setValue(item).addOnCompleteListener(task -> {
+        itemRef.child(item.getUserId()).child(item.getName()).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(application,
                         Literals.TOAST_ITEM_ADDED_SUCCESS, Toast.LENGTH_LONG).show();
+                Log.d("MyLog", "Item added");
             }
             else {
                 Toast.makeText(application,
                         Literals.TOAST_ITEM_NOT_ADDED, Toast.LENGTH_LONG).show();
+                Log.d("MyLog", "Item not added");
             }
         });
     }

@@ -5,12 +5,18 @@ public class Item {
     // todo: figure out how to store pictures
     private String name;
     private User user;
-    private Location location;
+    private String userId;
+    private double latitude;
+    private double longitude;
+    private String photoUri;
 
-    public Item(String name, User user, Location location) {
+
+    public Item(String name, String userId, double latitude, double longitude, String photoUri) {
         this.name = name;
-        this.user = user;
-        this.location = location;
+        this.userId = userId;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.photoUri = photoUri;
     }
 
     public String getName() {
@@ -21,7 +27,15 @@ public class Item {
         return user;
     }
 
-    public Location getLocation() {
-        return location;
+    public double getLatitude() {
+        return latitude;
     }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getPhotoUri() { return photoUri; }
+
+    public String getUserId() { return userId; }
 }

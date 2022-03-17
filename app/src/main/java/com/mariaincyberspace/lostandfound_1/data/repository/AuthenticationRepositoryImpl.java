@@ -81,4 +81,8 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
         auth.signOut();
         userLoggedMutableLiveData.postValue(true);
     }
+
+    public FirebaseUser getCurrentFirebaseUser() {
+        return auth.getCurrentUser();
+    }
 }

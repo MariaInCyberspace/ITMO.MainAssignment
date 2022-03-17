@@ -1,26 +1,47 @@
 package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 
+import static android.app.Activity.RESULT_OK;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.databinding.AddItemFragmentBinding;
+import com.mariaincyberspace.lostandfound_1.domain.model.Location;
+
+import java.net.URI;
 
 public class AddItemFragment extends Fragment {
 
     private AddItemViewModel mViewModel;
     private AddItemFragmentBinding binding;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
+    private Uri imageURI;
+    private Location mLocation;
+    MapsFragment mFragment;
+
 
 //    public static AddItemFragment newInstance() {
 //        return new AddItemFragment();
@@ -35,38 +56,57 @@ public class AddItemFragment extends Fragment {
         View root = binding.getRoot();
 
         final TextView textView = binding.textAdd;
-        final TextView hintTextView = binding.textViewAddPictureHint;
-        final TextView locHintTextView = binding.textViewInputLocationHint;
+        final Button uploadButton = binding.buttonUploadLostItem;
+        final ImageView imageView = binding.imageViewInputItemPicture;
 
-        mViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        mFragment = new MapsFragment();
+        getChildFragmentManager().beginTransaction().replace(R.id.frameLayout_Map, mFragment).commit();
+
+
+        activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent intent = result.getData();
+                        assert intent != null;
+                        imageURI = intent.getData();
+                        imageView.setImageURI(imageURI);
+                        // todo: upload to storage
+                    }
+                }
+        );
+
+        mViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+
+        imageView.setOnClickListener(v -> {
+            openActivityForResult();
+        });
+
+        uploadButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
+            public void onClick(View v) {
+                if (imageURI != null) {
+                    mLocation = mFragment.getLocation();
+                    String itemName = binding.editTextInputItemName.getText().toString();
+                    mViewModel.uploadPicture(imageURI, itemName, mLocation);
+                } else {
+                    Toast.makeText(requireActivity().getApplication(), "Please select image", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
-        mViewModel.getPicHint().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                hintTextView.setText(s);
-            }
-        });
-
-        mViewModel.getLocHint().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(String s) {
-                locHintTextView.setText(s);
-            }
-        });
-
-        Fragment fragment = new MapsFragment();
-        getChildFragmentManager().beginTransaction().replace(R.id.frameLayout, fragment).commit();
 
         return root;
     }
 
 
 
+    public void openActivityForResult() {
+        Intent galleryIntent = new Intent();
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+        galleryIntent.setType("image/*");
+        activityResultLauncher.launch(galleryIntent);
+    }
 //    @Override
 //    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 //        super.onActivityCreated(savedInstanceState);
@@ -79,5 +119,7 @@ public class AddItemFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
 
 }
