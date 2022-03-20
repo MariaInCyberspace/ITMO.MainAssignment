@@ -52,14 +52,14 @@ public class LoginViewModel extends AndroidViewModel {
         String values;
         if (TextUtils.isEmpty(email.getText().toString())
                 && TextUtils.isEmpty(password.getText().toString())) {
-            values = Literals.TOAST_INPUT_EMAIL_AND_PASSWORD;
+            values = Literals.Toasts.INPUT_EMAIL_AND_PASSWORD;
         }
         else {
             values = TextUtils.isEmpty(email.getText().toString())
-                    ? Literals.TOAST_INPUT_EMAIL : Literals.TOAST_INPUT_PASSWORD;
+                    ? Literals.Toasts.INPUT_EMAIL : Literals.Toasts.INPUT_PASSWORD;
         }
 
         Toast.makeText(getApplication(),
-                Literals.TOAST_INPUT_PROMPT + values, Toast.LENGTH_LONG).show();
+                Literals.Toasts.INPUT_PROMPT + values, Toast.LENGTH_LONG).show();
     }
 }

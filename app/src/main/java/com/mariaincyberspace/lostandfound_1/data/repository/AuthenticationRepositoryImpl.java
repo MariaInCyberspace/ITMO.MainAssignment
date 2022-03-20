@@ -46,7 +46,7 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
 
             if (task.isSuccessful()) {
                         Toast.makeText(application,
-                                Literals.TOAST_USER_SIGNED_UP, Toast.LENGTH_LONG).show();
+                                Literals.Toasts.USER_SIGNED_UP, Toast.LENGTH_LONG).show();
                         //todo link with storage if needed
 //                        addToDatabase();
                 //todo where to start another activity?
@@ -55,7 +55,7 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
             }
             else {
             Toast.makeText(application,
-            Literals.TOAST_USER_NOT_SIGNED_UP, Toast.LENGTH_LONG).show();
+            Literals.Toasts.USER_NOT_SIGNED_UP, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -67,11 +67,11 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(application,
-                                Literals.TOAST_USER_LOGGED_IN, Toast.LENGTH_LONG).show();
+                                Literals.Toasts.USER_LOGGED_IN, Toast.LENGTH_LONG).show();
                     }
                     else {
                         Toast.makeText(application,
-                                Literals.TOAST_USER_NOT_LOGGED_IN, Toast.LENGTH_LONG).show();
+                                Literals.Toasts.USER_NOT_LOGGED_IN, Toast.LENGTH_LONG).show();
                     }
                 });
     }
@@ -82,7 +82,16 @@ public class AuthenticationRepositoryImpl implements AuthenticationRepository {
         userLoggedMutableLiveData.postValue(true);
     }
 
+    @Override
+    public FirebaseUser getCurrentUser() {
+        return getCurrentFirebaseUser();
+    }
+
     public FirebaseUser getCurrentFirebaseUser() {
         return auth.getCurrentUser();
+    }
+
+    public String getCurrentUserId() {
+        return getCurrentUser().getUid();
     }
 }

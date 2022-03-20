@@ -32,7 +32,7 @@ public class AddItemViewModel extends AndroidViewModel {
 
     public AddItemViewModel(@NonNull Application application) {
         super(application);
-        reference = FirebaseDatabase.getInstance().getReference().child(Literals.ITEM_KEY);
+        reference = FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY);
         storage = FirebaseStorage.getInstance().getReference();
         authenticationRepository = new AuthenticationRepositoryImpl(getApplication());
         itemRepository = new ItemRepositoryImpl(application, reference);
