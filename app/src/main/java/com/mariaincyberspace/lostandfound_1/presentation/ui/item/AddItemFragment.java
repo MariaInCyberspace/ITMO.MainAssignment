@@ -2,14 +2,10 @@ package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 
 import static android.app.Activity.RESULT_OK;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,7 +14,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +26,6 @@ import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.databinding.AddItemFragmentBinding;
 import com.mariaincyberspace.lostandfound_1.domain.model.Location;
 
-import java.net.URI;
 
 public class AddItemFragment extends Fragment {
 
@@ -43,9 +37,6 @@ public class AddItemFragment extends Fragment {
     MapsFragment mFragment;
 
 
-//    public static AddItemFragment newInstance() {
-//        return new AddItemFragment();
-//    }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,

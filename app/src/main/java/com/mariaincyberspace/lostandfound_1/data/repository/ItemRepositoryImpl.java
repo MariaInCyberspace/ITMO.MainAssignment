@@ -46,9 +46,8 @@ public class ItemRepositoryImpl implements ItemRepository {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(Literals.Nodes.ITEM_KEY).child(userId);
 
-
         readFromDatabase(items -> {
-            Log.d("\nMy log: current user: ", "");
+            Log.d("\nMy log: current: ", "");
             for (Item i: items) {
                 Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
             }
@@ -95,6 +94,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                 items.clear();
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
+                    Log.d("User Id: ", ds.getKey());
                     for (DataSnapshot d: ds.getChildren()) {
                         try {
                             Item retrievedItem = new Item();
@@ -105,14 +105,13 @@ public class ItemRepositoryImpl implements ItemRepository {
                             retrievedItem.setLatitude((Double) f.get(Literals.ItemFields.LATITUDE));
                             retrievedItem.setLongitude((Double) f.get(Literals.ItemFields.LONGITUDE));
                             retrievedItem.setPhotoUri((String) f.get(Literals.ItemFields.PHOTO_URI));
-                            Log.d("My Log: ", retrievedItem.toString());
                             items.add(retrievedItem);
-                            Log.d("List Log: ", items.toString());
                         }
                         catch (NullPointerException ex) {
                             Log.d("My Log: ", ex.getMessage());
                         }
                     }
+                    Log.d("Items: ", items.toString());
 
                 }
 
@@ -144,9 +143,7 @@ public class ItemRepositoryImpl implements ItemRepository {
                         retrievedItem.setLatitude((Double) f.get(Literals.ItemFields.LATITUDE));
                         retrievedItem.setLongitude((Double) f.get(Literals.ItemFields.LONGITUDE));
                         retrievedItem.setPhotoUri((String) f.get(Literals.ItemFields.PHOTO_URI));
-                        Log.d("My Log: ", retrievedItem.toString());
                         items.add(retrievedItem);
-                        Log.d("List Log: ", items.toString());
                     }
                     catch (NullPointerException ex) {
                         Log.d("My Log: ", ex.getMessage());

@@ -2,13 +2,11 @@ package com.mariaincyberspace.lostandfound_1.presentation;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.annotation.NonNull;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,24 +14,15 @@ import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
+
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.databinding.ActivityMainBinding;
-import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.domain.use_case.SignOut;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
