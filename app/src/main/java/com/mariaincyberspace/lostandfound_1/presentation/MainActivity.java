@@ -93,7 +93,8 @@ public class MainActivity extends AppCompatActivity {
     public void onClickTestTest(MenuItem item) {
         ItemRepositoryImpl itemRepository = new ItemRepositoryImpl(getApplication(),
                 FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY));
-        itemRepository.getItems(authRepository.getCurrentUserId());
+        itemRepository.getCurrentUsersItems(authRepository.getCurrentUserId());
+        itemRepository.getAllItems();
 
     }
 

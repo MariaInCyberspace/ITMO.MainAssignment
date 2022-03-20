@@ -63,7 +63,10 @@ public class ItemRepositoryImpl implements ItemRepository {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(Literals.Nodes.ITEM_KEY);
         readAllFromDatabase(items -> {
-
+            Log.d("My Log: returned: ", "");
+            for (Item i: items) {
+                Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
+            }
         }, reference);
         return items;
     }
