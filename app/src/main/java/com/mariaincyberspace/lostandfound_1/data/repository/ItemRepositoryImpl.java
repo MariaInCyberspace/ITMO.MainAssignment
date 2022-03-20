@@ -48,7 +48,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
 
         readFromDatabase(items -> {
-            Log.d("My log: returned: ", "");
+            Log.d("\nMy log: current user: ", "");
             for (Item i: items) {
                 Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
             }
@@ -63,7 +63,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(Literals.Nodes.ITEM_KEY);
         readAllFromDatabase(items -> {
-            Log.d("My Log: returned: ", "");
+            Log.d("\nMy Log: all items: ", "");
             for (Item i: items) {
                 Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
             }
@@ -92,7 +92,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                items.clear();
+                items.clear();
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     for (DataSnapshot d: ds.getChildren()) {
@@ -132,7 +132,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                items.clear();
+                items.clear();
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     try {
