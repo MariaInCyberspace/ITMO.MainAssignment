@@ -2,6 +2,7 @@ package com.mariaincyberspace.lostandfound_1.presentation;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.Menu;
 
@@ -20,8 +21,12 @@ import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.databinding.ActivityMainBinding;
+import com.mariaincyberspace.lostandfound_1.domain.model.Item;
+import com.mariaincyberspace.lostandfound_1.domain.repository.OnCallBack;
 import com.mariaincyberspace.lostandfound_1.domain.use_case.SignOut;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
+//                R.id.nav_all_items,
                 R.id.nav_add, R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
                 .setOpenableLayout(drawer)
                 .build();
@@ -78,12 +84,26 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+
     // todo: remove this test click and the button
     public void onClickTestTest(MenuItem item) {
         ItemRepositoryImpl itemRepository = new ItemRepositoryImpl(getApplication(),
                 FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY));
-        itemRepository.getCurrentUsersItems(authRepository.getCurrentUserId());
-        itemRepository.getAllItems();
+        itemRepository.getCurrentUsersItems(authRepository.getCurrentUserId(), new OnCallBack() {
+            @Override
+            public void onCallBack(List<Item> items) {
+                Log.d("\nMy ActLog: current: ", "");
+                for (Item i: items) {
+                    Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
+                }
+            }
+        });
+        itemRepository.getAllItems(items -> {
+            Log.d("\nMy ActLog: all items: ", "");
+            for (Item i: items) {
+                Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
+            }
+        });
 
     }
 

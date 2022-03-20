@@ -15,6 +15,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.domain.repository.ItemRepository;
+import com.mariaincyberspace.lostandfound_1.domain.repository.OnCallBack;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
 import java.util.ArrayList;
@@ -39,35 +40,22 @@ public class ItemRepositoryImpl implements ItemRepository {
 
 
     @Override
-    public List<Item> getCurrentUsersItems(String userId) {
+    public void getCurrentUsersItems(String userId, OnCallBack onCallBack) {
 
         // todo: figure out how to get all items from the database
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(Literals.Nodes.ITEM_KEY).child(userId);
 
-        readFromDatabase(items -> {
-            Log.d("\nMy log: current: ", "");
-            for (Item i: items) {
-                Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
-            }
+        readFromDatabase(onCallBack::onCallBack, reference);
 
-        }, reference);
-
-        return items;
     }
 
     @Override
-    public List<Item> getAllItems() {
+    public void getAllItems(OnCallBack onCallBack) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(Literals.Nodes.ITEM_KEY);
-        readAllFromDatabase(items -> {
-            Log.d("\nMy Log: all items: ", "");
-            for (Item i: items) {
-                Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
-            }
-        }, reference);
-        return items;
+        readAllFromDatabase(onCallBack::onCallBack, reference);
     }
 
     @Override

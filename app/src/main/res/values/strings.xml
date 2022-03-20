@@ -28,4 +28,6 @@
     <string name="add_lost_item">Add Lost Item</string>
     <string name="input_name_hint">What did you lose?</string>
     <string name="add_item_button">Upload</string>
+    <string name="all_items">All Items</string>
+    <string name="search_hint">Enter your search here</string>
 </resources>

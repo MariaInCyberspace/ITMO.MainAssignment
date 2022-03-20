@@ -56,7 +56,7 @@ public class AddItemViewModel extends AndroidViewModel {
                                 Item item = new Item(itemName,
                                         location.getLatitude(), location.getLongitude(),
                                         uri1.toString());
-                                itemRepository.addItem(item, authenticationRepository.getCurrentFirebaseUser().getUid().toString());
+                                itemRepository.addItem(item, authenticationRepository.getCurrentUserId());
 
                                 Toast.makeText(getApplication(),
                                 "Upload successful", Toast.LENGTH_LONG).show();

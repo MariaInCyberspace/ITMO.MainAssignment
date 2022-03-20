@@ -8,7 +8,12 @@
         <item
             android:id="@+id/nav_add"
             android:icon="@drawable/ic_add_item"
-            android:title="@string/add_lost_item" />
+            android:title="@string/add_lost_item"
+            />
+        <item
+            android:id="@+id/nav_all_items"
+            android:icon="@drawable/ic_all_items"
+            android:title="@string/all_items" />
         <item
             android:id="@+id/nav_home"
             android:icon="@drawable/ic_menu_camera"

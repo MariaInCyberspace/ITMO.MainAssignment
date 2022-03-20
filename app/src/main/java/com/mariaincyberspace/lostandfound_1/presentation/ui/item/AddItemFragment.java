@@ -37,7 +37,6 @@ public class AddItemFragment extends Fragment {
     MapsFragment mFragment;
 
 
-
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
@@ -73,16 +72,13 @@ public class AddItemFragment extends Fragment {
             openActivityForResult();
         });
 
-        uploadButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (imageURI != null) {
-                    mLocation = mFragment.getLocation();
-                    String itemName = binding.editTextInputItemName.getText().toString();
-                    mViewModel.uploadPicture(imageURI, itemName, mLocation);
-                } else {
-                    Toast.makeText(requireActivity().getApplication(), "Please select image", Toast.LENGTH_LONG).show();
-                }
+        uploadButton.setOnClickListener(v -> {
+            if (imageURI != null) {
+                mLocation = mFragment.getLocation();
+                String itemName = binding.editTextInputItemName.getText().toString();
+                mViewModel.uploadPicture(imageURI, itemName, mLocation);
+            } else {
+                Toast.makeText(requireActivity().getApplication(), "Please select image", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -110,7 +106,5 @@ public class AddItemFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-
-
 
 }
