@@ -1,7 +1,6 @@
 package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import java.util.List;
 
 
-// todo: finish writing this class
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
     Context context;
@@ -26,15 +24,12 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
     public ItemAdapter(Context context, List<Item> list) {
         this.context = context;
         this.list = list;
-        Log.d("AdapterLog: ", "created adapter");
     }
 
     @NonNull
     @Override
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // todo: create item xml to be specified in here
         View v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
-        Log.d("AdapterLog: ", "creating view holder");
         return new ItemHolder(v);
     }
 
@@ -45,9 +40,6 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
         CharSequence sequence = item.getLatitude() + " : " + item.getLongitude();
         holder.description.setText(sequence);
         Glide.with(context).load(list.get(position).getPhotoUri()).into(holder.picture);
-        Log.d("AdapterLog: ", item.toString());
-        Log.d("AdapterLog: ", holder.toString());
-        // todo: figure out how to set picture url
     }
 
     @Override
