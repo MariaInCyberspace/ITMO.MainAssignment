@@ -1,6 +1,9 @@
 package com.mariaincyberspace.lostandfound_1.domain.model;
 
-public class Chat {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Chat implements Parcelable {
     private String chatId;
     private String ownerId;
     private String finderId;
@@ -12,6 +15,24 @@ public class Chat {
         this.ownerId = ownerId;
         this.finderId = finderId;
     }
+
+    protected Chat(Parcel in) {
+        chatId = in.readString();
+        ownerId = in.readString();
+        finderId = in.readString();
+    }
+
+    public static final Creator<Chat> CREATOR = new Creator<Chat>() {
+        @Override
+        public Chat createFromParcel(Parcel in) {
+            return new Chat(in);
+        }
+
+        @Override
+        public Chat[] newArray(int size) {
+            return new Chat[size];
+        }
+    };
 
     public String getChatId() {
         return chatId;
@@ -35,5 +56,17 @@ public class Chat {
 
     public void setFinderId(String finderId) {
         this.finderId = finderId;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(chatId);
+        dest.writeString(ownerId);
+        dest.writeString(finderId);
     }
 }

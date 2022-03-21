@@ -54,6 +54,8 @@ public class Literals {
         public static final String CHAT_ID = "chatId";
         public static final String MESSAGE_TEXT = "messageText";
         public static final String TIMESTAMP = "timestamp";
+        public static final String SENDER_ID = "senderId";
+        public static final String RECIPIENT_ID = "recipientId";
     }
 
     public static class UserFields {

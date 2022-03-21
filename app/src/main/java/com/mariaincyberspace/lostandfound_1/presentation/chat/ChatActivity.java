@@ -9,13 +9,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.MessageRepositoryImpl;
+import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
+import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
 import com.mariaincyberspace.lostandfound_1.domain.model.Message;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -26,6 +31,7 @@ public class ChatActivity extends AppCompatActivity {
     private String ownerId;
     private String finderId;
     private MessageRepositoryImpl messageRepository;
+    private UserRepositoryImpl userRepository;
     private Button sendMessageButton;
     private Message message;
     private EditText messageText;
@@ -35,6 +41,7 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
         messageRepository = new MessageRepositoryImpl(getApplication());
+        userRepository = new UserRepositoryImpl(getApplication());
         messageList = new ArrayList<>();
         chatId = getIntent().getStringExtra(Literals.ChatFields.CHAT_ID);
         ownerId = getIntent().getStringExtra(Literals.ChatFields.OWNER_ID);
@@ -51,6 +58,7 @@ public class ChatActivity extends AppCompatActivity {
         sendMessageButton.setOnClickListener(getOnClickListenerSendMessage());
     }
 
+
     public void getData() {
         messageRepository.getMessages(chatId, messages -> {
             messageList = messages;
@@ -60,7 +68,8 @@ public class ChatActivity extends AppCompatActivity {
 
     public View.OnClickListener getOnClickListenerSendMessage() {
         return v -> {
-            message = new Message(chatId, messageText.getText().toString(), System.currentTimeMillis());
+            message = new Message(chatId, messageText.getText().toString(), System.currentTimeMillis(),
+                    Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid(), ownerId);
             messageRepository.addMessage(message);
             getData();
             Log.d("ClickLog: ", "clicked");

@@ -73,8 +73,9 @@ public class MessageRepositoryImpl implements MessageRepository {
                     message.setChatId((String) f.get(Literals.MessageFields.CHAT_ID));
                     message.setMessageText((String) f.get(Literals.MessageFields.MESSAGE_TEXT));
                     message.setTimestamp((Long) f.get(Literals.MessageFields.TIMESTAMP));
+                    message.setSenderId((String) f.get(Literals.MessageFields.SENDER_ID));
+                    message.setRecipientId((String) f.get(Literals.MessageFields.RECIPIENT_ID));
                     messages.add(message);
-
                 }
 
                 firebaseCallback.onCallback(messages);

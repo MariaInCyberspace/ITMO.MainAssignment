@@ -4,13 +4,33 @@ public class Message {
     private String chatId;
     private String messageText;
     private Long timestamp;
+    private String senderId;
+    private String recipientId;
 
     public Message() { }
 
-    public Message(String chatId, String messageText, Long timestamp) {
+    public Message(String chatId, String messageText, Long timestamp, String senderId, String recipientId) {
         this.chatId = chatId;
         this.messageText = messageText;
         this.timestamp = timestamp;
+        this.senderId = senderId;
+        this.recipientId = recipientId;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
+
+    public String getRecipientId() {
+        return recipientId;
+    }
+
+    public void setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
     }
 
     public String getChatId() {

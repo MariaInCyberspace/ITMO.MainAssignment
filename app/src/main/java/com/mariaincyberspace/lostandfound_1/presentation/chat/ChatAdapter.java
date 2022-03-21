@@ -4,25 +4,32 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.mariaincyberspace.lostandfound_1.MyApp;
 import com.mariaincyberspace.lostandfound_1.R;
+import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
+import com.mariaincyberspace.lostandfound_1.domain.repository.OnUserCallBack;
+import com.mariaincyberspace.lostandfound_1.domain.repository.UserRepository;
 
 import java.util.List;
 
-public class AllChatsAdapter extends RecyclerView.Adapter<AllChatsAdapter.ChatHolder> {
+public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder> {
 
     Context context;
     List<Chat> chatList;
     OnChatClickListener mOnChatClickListener;
+    UserRepositoryImpl userRepository;
 
-    public AllChatsAdapter(Context context, List<Chat> chatList, OnChatClickListener mOnChatClickListener) {
+    public ChatAdapter(Context context, List<Chat> chatList, OnChatClickListener mOnChatClickListener) {
         this.context = context;
         this.chatList = chatList;
         this.mOnChatClickListener = mOnChatClickListener;
+        userRepository = new UserRepositoryImpl(MyApp.getInstance());
     }
 
     @NonNull
@@ -35,7 +42,7 @@ public class AllChatsAdapter extends RecyclerView.Adapter<AllChatsAdapter.ChatHo
     @Override
     public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
         Chat chat = chatList.get(position);
-        // todo: bind to elements
+        userRepository.getUserName(chat.getOwnerId(), name -> holder.chatIdentifier.setText(name));
     }
 
     @Override
@@ -45,20 +52,20 @@ public class AllChatsAdapter extends RecyclerView.Adapter<AllChatsAdapter.ChatHo
 
     public static class ChatHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+        TextView chatIdentifier;
         OnChatClickListener onChatClickListener;
-
-        // todo: declare view elements
-        // todo: bind view elements
-
 
         public ChatHolder(@NonNull View itemView, OnChatClickListener onChatClickListener) {
             super(itemView);
+            chatIdentifier = itemView.findViewById(R.id.textView_ChatIdentifier);
             this.onChatClickListener = onChatClickListener;
+
+            itemView.setOnClickListener(this);
         }
 
         @Override
         public void onClick(View v) {
-            onChatClickListener.onChatClick(getBindingAdapterPosition());
+            onChatClickListener.onChatClick(getAdapterPosition());
         }
     }
 

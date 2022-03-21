@@ -49,12 +49,20 @@ public class ChatRepositoryImpl implements ChatRepository {
     }
 
     @Override
-    public void getChats(String userId, OnChatCallBack onChatCallBack) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child(Literals.Nodes.CHAT_KEY);
+    public void getOwnerChats(String userId, OnChatCallBack onChatCallBack) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference((Literals.Nodes.CHAT_KEY));
         Query query = reference.orderByChild(Literals.ChatFields.OWNER_ID).equalTo(userId);
         readData(onChatCallBack::onCallBack, query);
+        Log.d("AllChatsLog:: ", userId);
     }
+
+    @Override
+    public void getFinderChats(String userId, OnChatCallBack onChatCallBack) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Literals.Nodes.CHAT_KEY);
+        Query query = reference.orderByChild(Literals.ChatFields.FINDER_ID).equalTo(userId);
+        readData(onChatCallBack::onCallBack, query);
+    }
+
 
     public void readData(final FirebaseCallback firebaseCallback, Query query) {
         ValueEventListener valueEventListener = new ValueEventListener() {
@@ -72,6 +80,7 @@ public class ChatRepositoryImpl implements ChatRepository {
                     chat.setOwnerId((String) f.get(Literals.ChatFields.OWNER_ID));
                     chat.setFinderId((String) f.get(Literals.ChatFields.FINDER_ID));
                     chats.add(chat);
+                    Log.d("AllChatLog:: ", chat.getOwnerId() + " " + chat.getFinderId());
                 }
 
                 firebaseCallback.onCallback(chats);

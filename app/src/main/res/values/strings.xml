@@ -35,4 +35,5 @@
     <string name="notify_owner_item_found_button">notify owner that i found it</string>
     <string name="enter_message_hint">Enter your message here</string>
     <string name="send_message_button">send message</string>
+    <string name="my_chats">My Chats</string>
 </resources>

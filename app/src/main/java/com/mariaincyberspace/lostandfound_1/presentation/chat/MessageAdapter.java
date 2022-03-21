@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.firebase.auth.FirebaseAuth;
 import com.mariaincyberspace.lostandfound_1.MyApp;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
@@ -18,13 +20,17 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     Context context;
     List<Message> messagesList;
     UserRepositoryImpl userRepository;
-    static String mName;
+    String currentUserId;
+    String transferredId;
+    static String mName1;
 
     public MessageAdapter(Context context, List<Message> messagesList, String userId) {
         this.context = context;
         this.messagesList = messagesList;
         userRepository = new UserRepositoryImpl(MyApp.getInstance());
-        userRepository.getUserName(userId, name -> mName = name);
+        currentUserId = FirebaseAuth.getInstance().getUid();
+        transferredId = userId;
+        userRepository.getUserName(userId, name -> mName1 = name);
     }
 
     @NonNull
@@ -37,7 +43,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     @Override
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         Message message = messagesList.get(position);
-        holder.userName.setText(mName);
+        if (currentUserId.equals(transferredId)) {
+            userRepository.getUserName(message.getSenderId(), name -> holder.userName.setText(name));
+        } else {
+            userRepository.getUserName(message.getRecipientId(), name -> holder.userName.setText(name));
+        }
+
         holder.messageText.setText(message.getMessageText());
     }
 

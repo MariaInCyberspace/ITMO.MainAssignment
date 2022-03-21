@@ -21,6 +21,14 @@
         tools:layout="@layout/fragment_item_list" >
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_chats"
+        android:name="com.mariaincyberspace.lostandfound_1.presentation.chat.AllChatsFragment"
+        android:label="My Chats"
+        tools:layout="@layout/fragment_all_chats" >
+
+    </fragment>
+
 
     <activity
         android:id="@+id/nav_login"
