@@ -1,16 +1,39 @@
 package com.mariaincyberspace.lostandfound_1.domain.model;
 
+import java.sql.Timestamp;
+
 public class Item {
 
     public Item() { }
 
     // todo: figure out how to store pictures
     private String name;
+    private String userId;
+
+
+
     private double latitude;
     private double longitude;
     private String photoUri;
+    private String address;
+    private Long timestamp;
 
-    // todo: remove setters later
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
+    }
+// todo: remove setters later
     // Setters for testing
 
 
@@ -30,11 +53,14 @@ public class Item {
         this.photoUri = photoUri;
     }
 
-    public Item(String name, double latitude, double longitude, String photoUri) {
+    public Item(String name, String userId, double latitude, double longitude, String photoUri, String address, Long timestamp) {
         this.name = name;
+        this.userId = userId;
         this.latitude = latitude;
         this.longitude = longitude;
         this.photoUri = photoUri;
+        this.address = address;
+        this.timestamp = timestamp;
     }
 
     public String getName() {
@@ -52,6 +78,13 @@ public class Item {
 
     public String getPhotoUri() { return photoUri; }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     @Override
     public String toString() {
@@ -60,6 +93,7 @@ public class Item {
                 ", latitude=" + latitude +
                 ", longitude=" + longitude +
                 ", photoUri='" + photoUri + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
 }

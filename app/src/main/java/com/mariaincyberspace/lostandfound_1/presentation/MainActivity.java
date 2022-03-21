@@ -24,6 +24,7 @@ import com.mariaincyberspace.lostandfound_1.databinding.ActivityMainBinding;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.domain.repository.OnCallBack;
 import com.mariaincyberspace.lostandfound_1.domain.use_case.SignOut;
+import com.mariaincyberspace.lostandfound_1.services.CoordinatesToPlaceService;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
 import java.util.List;
@@ -88,19 +89,19 @@ public class MainActivity extends AppCompatActivity {
     public void onClickTestTest(MenuItem item) {
         ItemRepositoryImpl itemRepository = new ItemRepositoryImpl(getApplication(),
                 FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY));
-        itemRepository.getCurrentUsersItems(authRepository.getCurrentUserId(), new OnCallBack() {
-            @Override
-            public void onCallBack(List<Item> items) {
-                Log.d("\nMy ActLog: current: ", "");
-                for (Item i: items) {
-                    Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
-                }
-            }
-        });
+
         itemRepository.getAllItems(items -> {
             Log.d("\nMy ActLog: all items: ", "");
             for (Item i: items) {
-                Log.d("Item: ", "'" + i.getName() + "', " + i.getPhotoUri());
+                Log.d("Item: ", "'" + i.getName());
+            }
+        });
+
+        itemRepository.getCurrentUsersItems(authRepository.getCurrentUserId(), items -> {
+            Log.d("\nMy ActLog: current: ", "");
+            for (Item i: items) {
+                String address = CoordinatesToPlaceService.getPlace(i.getLatitude(), i.getLongitude());
+                Log.d("Item: ", "'" + i.getName() + "', " + address);
             }
         });
 

@@ -7,35 +7,33 @@
     tools:context=".presentation.ui.item.ItemListFragment">
 
 
-    <EditText
-        android:id="@+id/editText_SearchItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/search_hint"
-        android:inputType="textPersonName"
-        android:paddingLeft="10dp"
-        android:textColor="@color/my_grey"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView_ItemList"
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/searchView_SearchItem"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
         android:layout_marginStart="1dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
+        android:background="@drawable/search_view_background"
+        android:queryHint="@string/search_hint"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
-
-
-
-
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView_ItemList"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchView_SearchItem" />
 </androidx.constraintlayout.widget.ConstraintLayout>

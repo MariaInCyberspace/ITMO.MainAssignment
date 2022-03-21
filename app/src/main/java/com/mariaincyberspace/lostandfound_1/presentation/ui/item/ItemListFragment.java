@@ -1,18 +1,15 @@
 package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.Toast;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
@@ -20,10 +17,9 @@ import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationReposi
 import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,6 +34,7 @@ public class ItemListFragment extends Fragment {
     private DatabaseReference reference;
     private ItemAdapter itemAdapter;
     private List<Item> itemArrayList;
+    private SearchView searchView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -91,17 +88,51 @@ public class ItemListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_item_list, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView_ItemList);
+        recyclerView = view.findViewById(R.id.recyclerView_ItemList);
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.d("ItemListLog: ", "2");
         itemAdapter = new ItemAdapter(getContext(), itemArrayList);
         recyclerView.setAdapter(itemAdapter);
         getData();
+        searchView = view.findViewById(R.id.searchView_SearchItem);
+        searchView.clearFocus();
+        searchView.setOnQueryTextListener(getOnQueryTextListener());
         Log.d("ItemListLog: ", "3");
         return view;
     }
 
+    public SearchView.OnQueryTextListener getOnQueryTextListener() {
+        return new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterText(newText);
+                return true;
+            }
+        };
+    }
+
+    private void filterText(String text) {
+        List<Item> filteredList = new ArrayList<>();
+        for (Item i: itemArrayList) {
+            if (i.getName().toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT)) ||
+                i.getAddress().toLowerCase(Locale.ROOT).contains(text.toLowerCase(Locale.ROOT))) {
+                    filteredList.add(i);
+            }
+        }
+
+        if (filteredList.isEmpty()) {
+            Toast.makeText(getActivity(), "No matches", Toast.LENGTH_LONG).show();
+        } else {
+            itemAdapter.updateItems(filteredList);
+        }
+    }
 
     public void getData() {
         itemRepository.getAllItems(items -> {

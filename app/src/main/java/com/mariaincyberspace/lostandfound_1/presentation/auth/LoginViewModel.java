@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
@@ -59,7 +60,13 @@ public class LoginViewModel extends AndroidViewModel {
                     ? Literals.Toasts.INPUT_EMAIL : Literals.Toasts.INPUT_PASSWORD;
         }
 
+
+
         Toast.makeText(getApplication(),
                 Literals.Toasts.INPUT_PROMPT + values, Toast.LENGTH_LONG).show();
+    }
+
+    public void checkIfRegistered(String email) {
+        repository.checkIfRegistered(email);
     }
 }

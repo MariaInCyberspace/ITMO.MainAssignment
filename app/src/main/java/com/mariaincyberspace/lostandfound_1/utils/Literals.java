@@ -27,11 +27,21 @@ public class Literals {
     public static class ItemFields {
 
         public static final String NAME = "name";
+        public static final String USER_ID = "userId";
         public static final String LATITUDE = "latitude";
         public static final String LONGITUDE = "longitude";
         public static final String PHOTO_URI = "photoUri";
+        public static final String ADDRESS = "address";
+        public static final String TIMESTAMP = "timestamp";
+
     }
 
+    public static class Api {
+        public static final String API = "AIzaSyBVgj7xfYYcbq1TT0JebB5RIIBH0RPrlmE";
+    }
 
+    public static class DateFormat {
+        public static final String DATE_FORMAT = "DD.MM.YYYY hh:mm";
+    }
 
 }

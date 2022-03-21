@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +26,6 @@ import java.util.List;
 public class ItemRepositoryImpl implements ItemRepository {
     private Application application;
     private final DatabaseReference itemRef;
-    private Query query;
     List<Item> items;
 
     public ItemRepositoryImpl(Application application, DatabaseReference itemRef) {
@@ -40,27 +40,27 @@ public class ItemRepositoryImpl implements ItemRepository {
 
 
     @Override
-    public void getCurrentUsersItems(String userId, OnCallBack onCallBack) {
-
-        // todo: figure out how to get all items from the database
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child(Literals.Nodes.ITEM_KEY).child(userId);
-
-        readFromDatabase(onCallBack::onCallBack, reference);
-
-    }
-
-    @Override
     public void getAllItems(OnCallBack onCallBack) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(Literals.Nodes.ITEM_KEY);
-        readAllFromDatabase(onCallBack::onCallBack, reference);
+        Query query = reference.orderByChild(Literals.ItemFields.TIMESTAMP);
+        Log.d("ItemRepoLog: ", "");
+        readFromDatabase(onCallBack::onCallBack, query);
+    }
+
+    @Override
+    public void getCurrentUsersItems(String userId, OnCallBack onCallBack) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child(Literals.Nodes.ITEM_KEY);
+        Query query = reference.orderByChild(Literals.ItemFields.USER_ID)
+                .equalTo(userId);
+        Log.d("ItemRepoLog: ", "");
+        readFromDatabase(onCallBack::onCallBack, query);
     }
 
     @Override
     public void addItem(Item item, String userId) {
-        itemRef.child(userId).child(item.getName()).setValue(item).addOnCompleteListener(task -> {
+        itemRef.child(item.getTimestamp().toString()).setValue(item).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(application,
                         Literals.Toasts.ITEM_ADDED_SUCCESS, Toast.LENGTH_LONG).show();
@@ -74,7 +74,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         });
     }
 
-    public void readAllFromDatabase(final FirebaseCallback firebaseCallback, DatabaseReference reference) {
+    public void readFromDatabase(final FirebaseCallback firebaseCallback, Query query1) {
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -82,23 +82,24 @@ public class ItemRepositoryImpl implements ItemRepository {
                 items.clear();
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
-                    Log.d("User Id: ", ds.getKey());
-                    for (DataSnapshot d: ds.getChildren()) {
-                        try {
-                            Item retrievedItem = new Item();
-                            GenericTypeIndicator<HashMap<String, Object>> objType =
-                                    new GenericTypeIndicator<HashMap<String, Object>>() {};
-                            HashMap<String, Object> f = d.getValue(objType);
-                            retrievedItem.setName((String)f.get(Literals.ItemFields.NAME));
-                            retrievedItem.setLatitude((Double) f.get(Literals.ItemFields.LATITUDE));
-                            retrievedItem.setLongitude((Double) f.get(Literals.ItemFields.LONGITUDE));
-                            retrievedItem.setPhotoUri((String) f.get(Literals.ItemFields.PHOTO_URI));
-                            items.add(retrievedItem);
-                        }
-                        catch (NullPointerException ex) {
-                            Log.d("My Log: ", ex.getMessage());
-                        }
+                    try {
+                        Item retrievedItem = new Item();
+                        GenericTypeIndicator<HashMap<String, Object>> objType =
+                                new GenericTypeIndicator<HashMap<String, Object>>() {};
+                        HashMap<String, Object> f = ds.getValue(objType);
+                        retrievedItem.setName((String)f.get(Literals.ItemFields.NAME));
+                        retrievedItem.setUserId((String) f.get(Literals.ItemFields.USER_ID));
+                        retrievedItem.setLatitude((Double) f.get(Literals.ItemFields.LATITUDE));
+                        retrievedItem.setLongitude((Double) f.get(Literals.ItemFields.LONGITUDE));
+                        retrievedItem.setPhotoUri((String) f.get(Literals.ItemFields.PHOTO_URI));
+                        retrievedItem.setAddress((String) f.get(Literals.ItemFields.ADDRESS));
+                        retrievedItem.setTimestamp((Long) f.get(Literals.ItemFields.TIMESTAMP));
+                        items.add(retrievedItem);
                     }
+                    catch (NullPointerException ex) {
+                        Log.d("My Log: ", ex.getMessage());
+                    }
+
                     Log.d("Items: ", items.toString());
 
                 }
@@ -112,43 +113,10 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
         };
 
-        reference.addValueEventListener(valueEventListener);
+//        reference.addValueEventListener(valueEventListener);
+        query1.addValueEventListener(valueEventListener);
     }
 
-    public void readFromDatabase(final FirebaseCallback firebaseCallback, DatabaseReference reference) {
-        ValueEventListener valueEventListener = new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                items.clear();
-
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    try {
-                        Item retrievedItem = new Item();
-                        GenericTypeIndicator<HashMap<String, Object>> objType =
-                                new GenericTypeIndicator<HashMap<String, Object>>() {};
-                        HashMap<String, Object> f = ds.getValue(objType);
-                        retrievedItem.setName((String)f.get(Literals.ItemFields.NAME));
-                        retrievedItem.setLatitude((Double) f.get(Literals.ItemFields.LATITUDE));
-                        retrievedItem.setLongitude((Double) f.get(Literals.ItemFields.LONGITUDE));
-                        retrievedItem.setPhotoUri((String) f.get(Literals.ItemFields.PHOTO_URI));
-                        items.add(retrievedItem);
-                    }
-                    catch (NullPointerException ex) {
-                        Log.d("My Log: ", ex.getMessage());
-                    }
-                }
-
-                firebaseCallback.onCallback(items);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("My Log, Database: ", error.getMessage());
-            }
-        };
-
-        reference.addValueEventListener(valueEventListener);
-    }
 
     @Override
     public void deleteItem(Item item) {

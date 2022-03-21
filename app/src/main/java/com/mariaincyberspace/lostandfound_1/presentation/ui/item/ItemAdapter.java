@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
+
+import java.util.Collections;
 import java.util.List;
 
 
@@ -37,7 +39,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
     public void onBindViewHolder(@NonNull ItemHolder holder, int position) {
         Item item = list.get(position);
         holder.name.setText(item.getName());
-        CharSequence sequence = item.getLatitude() + " : " + item.getLongitude();
+        CharSequence sequence = "Lost in " + item.getAddress();
         holder.description.setText(sequence);
         Glide.with(context).load(list.get(position).getPhotoUri()).into(holder.picture);
     }
@@ -63,6 +65,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
     public void updateItems(List<Item> newList) {
         list.clear();
+        Collections.reverse(newList);
         list.addAll(newList);
         this.notifyDataSetChanged();
     }

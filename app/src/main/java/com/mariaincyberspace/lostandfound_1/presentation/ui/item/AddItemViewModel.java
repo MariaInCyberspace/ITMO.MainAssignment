@@ -3,6 +3,7 @@ package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 import android.app.Application;
 import android.content.ContentResolver;
 import android.net.Uri;
+import android.text.format.DateFormat;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 
@@ -19,7 +20,13 @@ import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationReposi
 import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.domain.model.Location;
+import com.mariaincyberspace.lostandfound_1.services.CoordinatesToPlaceService;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Date;
 
 public class AddItemViewModel extends AndroidViewModel {
     // TODO: Implement the ViewModel
@@ -53,9 +60,14 @@ public class AddItemViewModel extends AndroidViewModel {
                 -> fileRef.getDownloadUrl()
                 .addOnSuccessListener(uri1
                         -> {
+                                String address = CoordinatesToPlaceService.getPlace(location.getLatitude(),
+                                        location.getLongitude());
                                 Item item = new Item(itemName,
+                                        authenticationRepository.getCurrentUserId(),
                                         location.getLatitude(), location.getLongitude(),
-                                        uri1.toString());
+                                        uri1.toString(), address,
+                                        System.currentTimeMillis()
+                                        );
                                 itemRepository.addItem(item, authenticationRepository.getCurrentUserId());
 
                                 Toast.makeText(getApplication(),
