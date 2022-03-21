@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.Task;
 import com.mariaincyberspace.lostandfound_1.R;
+import com.mariaincyberspace.lostandfound_1.services.CoordinatesToPlaceService;
 
 
 public class MapsFragment extends Fragment {
@@ -51,7 +52,8 @@ public class MapsFragment extends Fragment {
         supportMapFragment.getMapAsync(googleMap -> {
             googleMap.setOnMapLoadedCallback(() -> {
                 LatLng current = new LatLng(currentLat, currentLong);
-                googleMap.addMarker(new MarkerOptions().position(current).title(currentLat + " : " + currentLong));
+                String title = CoordinatesToPlaceService.getPlace(currentLat, currentLong);
+                googleMap.addMarker(new MarkerOptions().position(current).title(title));
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(current));
 
             });
@@ -60,7 +62,8 @@ public class MapsFragment extends Fragment {
             googleMap.setOnMapClickListener(latLng -> {
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
-                markerOptions.title(latLng.latitude + " : " + latLng.longitude);
+                String title = CoordinatesToPlaceService.getPlace(latLng.latitude, latLng.longitude);
+                markerOptions.title(title);
                 googleMap.clear();
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
                         latLng, 10
