@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -74,7 +73,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         });
     }
 
-    public void readFromDatabase(final FirebaseCallback firebaseCallback, Query query1) {
+    public void readFromDatabase(final FirebaseCallback firebaseCallback, Query query) {
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -113,8 +112,7 @@ public class ItemRepositoryImpl implements ItemRepository {
             }
         };
 
-//        reference.addValueEventListener(valueEventListener);
-        query1.addValueEventListener(valueEventListener);
+        query.addValueEventListener(valueEventListener);
     }
 
 

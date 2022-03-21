@@ -4,6 +4,7 @@ import static android.app.Activity.RESULT_OK;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.fragment.app.FragmentManager;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,9 +24,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mariaincyberspace.lostandfound_1.MyApp;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.databinding.AddItemFragmentBinding;
 import com.mariaincyberspace.lostandfound_1.domain.model.Location;
+import com.mariaincyberspace.lostandfound_1.presentation.MainActivity;
+
+import java.util.Objects;
 
 
 public class AddItemFragment extends Fragment {
@@ -41,6 +47,7 @@ public class AddItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         mViewModel = new ViewModelProvider(this).get(AddItemViewModel.class);
+
 
         binding = AddItemFragmentBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
@@ -77,6 +84,7 @@ public class AddItemFragment extends Fragment {
                 mLocation = mFragment.getLocation();
                 String itemName = binding.editTextInputItemName.getText().toString();
                 mViewModel.uploadPicture(imageURI, itemName, mLocation);
+                Navigation.findNavController(requireView()).navigate(R.id.nav_all_items);
             } else {
                 Toast.makeText(requireActivity().getApplication(), "Please select image", Toast.LENGTH_LONG).show();
             }
@@ -94,12 +102,7 @@ public class AddItemFragment extends Fragment {
         galleryIntent.setType("image/*");
         activityResultLauncher.launch(galleryIntent);
     }
-//    @Override
-//    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        mViewModel = new ViewModelProvider(this).get(AddItemViewModel.class);
-//        // TODO: Use the ViewModel
-//    }
+
 
     @Override
     public void onDestroyView() {
