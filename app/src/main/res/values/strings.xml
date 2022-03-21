@@ -30,4 +30,5 @@
     <string name="add_item_button">Upload</string>
     <string name="all_items">All Items</string>
     <string name="search_hint">Enter your search here</string>
+    <string name="mark_found_button_text">mark found</string>
 </resources>

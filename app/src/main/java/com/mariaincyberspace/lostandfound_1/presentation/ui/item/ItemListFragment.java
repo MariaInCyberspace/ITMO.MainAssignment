@@ -1,8 +1,13 @@
 package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 
+
+import android.content.Intent;
 import android.os.Bundle;
+
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavGraph;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
@@ -10,6 +15,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.android.gms.actions.ItemListIntents;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
@@ -18,10 +25,11 @@ import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-public class ItemListFragment extends Fragment {
+public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClickListener {
 
     private RecyclerView recyclerView;
     private AuthenticationRepositoryImpl authenticationRepository;
@@ -57,7 +65,7 @@ public class ItemListFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.d("ItemListLog: ", "2");
-        itemAdapter = new ItemAdapter(getContext(), itemArrayList);
+        itemAdapter = new ItemAdapter(getContext(), itemArrayList, this);
         recyclerView.setAdapter(itemAdapter);
         getData();
         searchView = view.findViewById(R.id.searchView_SearchItem);
@@ -102,9 +110,18 @@ public class ItemListFragment extends Fragment {
         itemRepository.getAllItems(items -> {
             Log.d("ItemListLog: ", "4");
             itemArrayList = items;
+            Collections.reverse(itemArrayList);
             itemAdapter.updateItems(itemArrayList);
             Log.d("ItemListLog: ", "5");
             Log.d("ItemListLog: list", itemArrayList.toString());
         } );
+    }
+
+    @Override
+    public void onItemClick(int position) {
+        Item item = itemArrayList.get(position);
+        Intent intent = new Intent(requireActivity(), ItemActivity.class);
+        intent.putExtra("selected_item", item);
+        startActivity(intent);
     }
 }

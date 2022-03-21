@@ -18,8 +18,8 @@
         android:id="@+id/nav_all_items"
         android:name="com.mariaincyberspace.lostandfound_1.presentation.ui.item.ItemListFragment"
         android:label="All Items"
-        tools:layout="@layout/fragment_item_list"
-        />
+        tools:layout="@layout/fragment_item_list" >
+    </fragment>
 
     <fragment
         android:id="@+id/nav_home"

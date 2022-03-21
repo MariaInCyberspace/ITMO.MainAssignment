@@ -1,8 +1,11 @@
 package com.mariaincyberspace.lostandfound_1.domain.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.sql.Timestamp;
 
-public class Item {
+public class Item implements Parcelable {
 
     public Item() { }
 
@@ -17,6 +20,32 @@ public class Item {
     private String photoUri;
     private String address;
     private Long timestamp;
+
+    protected Item(Parcel in) {
+        name = in.readString();
+        userId = in.readString();
+        latitude = in.readDouble();
+        longitude = in.readDouble();
+        photoUri = in.readString();
+        address = in.readString();
+        if (in.readByte() == 0) {
+            timestamp = null;
+        } else {
+            timestamp = in.readLong();
+        }
+    }
+
+    public static final Creator<Item> CREATOR = new Creator<Item>() {
+        @Override
+        public Item createFromParcel(Parcel in) {
+            return new Item(in);
+        }
+
+        @Override
+        public Item[] newArray(int size) {
+            return new Item[size];
+        }
+    };
 
     public String getUserId() {
         return userId;
@@ -95,5 +124,26 @@ public class Item {
                 ", photoUri='" + photoUri + '\'' +
                 ", address='" + address + '\'' +
                 '}';
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(userId);
+        dest.writeDouble(latitude);
+        dest.writeDouble(longitude);
+        dest.writeString(photoUri);
+        dest.writeString(address);
+        if (timestamp == null) {
+            dest.writeByte((byte) 0);
+        } else {
+            dest.writeByte((byte) 1);
+            dest.writeLong(timestamp);
+        }
     }
 }

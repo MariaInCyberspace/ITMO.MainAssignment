@@ -118,6 +118,23 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public void deleteItem(Item item) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+                .child(Literals.Nodes.ITEM_KEY);
+        Query query = reference.orderByChild(Literals.ItemFields.TIMESTAMP)
+                .equalTo(item.getTimestamp());
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot ds: snapshot.getChildren()) {
+                    ds.getRef().removeValue();
+                    Toast.makeText(application, Literals.Toasts.ITEM_DELETED, Toast.LENGTH_LONG).show();
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("ItemRepoLog: ", error.getMessage());
+            }
+        });
     }
 }

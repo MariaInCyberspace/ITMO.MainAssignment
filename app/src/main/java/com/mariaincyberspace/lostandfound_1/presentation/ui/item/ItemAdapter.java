@@ -22,17 +22,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
 
     Context context;
     List<Item> list;
+    private OnItemClickListener mOnItemClickListener;
 
-    public ItemAdapter(Context context, List<Item> list) {
+    public ItemAdapter(Context context, List<Item> list, OnItemClickListener mOnItemClickListener) {
         this.context = context;
         this.list = list;
+        this.mOnItemClickListener = mOnItemClickListener;
     }
 
     @NonNull
     @Override
     public ItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.item, parent, false);
-        return new ItemHolder(v);
+        return new ItemHolder(v, mOnItemClickListener);
     }
 
     @Override
@@ -49,25 +51,37 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemHolder> {
         return list.size();
     }
 
-    public static class ItemHolder extends RecyclerView.ViewHolder {
+    public static class ItemHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name, description;
         ImageView picture;
+        OnItemClickListener onItemClickListener;
 
-        public ItemHolder(@NonNull View itemView) {
+
+        public ItemHolder(@NonNull View itemView, OnItemClickListener onItemClickListener) {
             super(itemView);
             name = itemView.findViewById(R.id.textView_ItemName);
             description = itemView.findViewById(R.id.textView_ItemDescription);
             picture = itemView.findViewById(R.id.imageView_ItemPicture);
+            this.onItemClickListener = onItemClickListener;
+
+            itemView.setOnClickListener(this);
         }
 
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(getBindingAdapterPosition());
+        }
     }
 
     public void updateItems(List<Item> newList) {
         list.clear();
-        Collections.reverse(newList);
         list.addAll(newList);
         this.notifyDataSetChanged();
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position);
     }
 
 }

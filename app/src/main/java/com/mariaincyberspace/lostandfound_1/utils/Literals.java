@@ -22,6 +22,7 @@ public class Literals {
         public static final String ITEM_NOT_ADDED = "Failed to add item";
         public static final String INPUT_EMAIL = "email";
         public static final String INPUT_PASSWORD = "password";
+        public static final String ITEM_DELETED = "Item deleted";
     }
 
     public static class ItemFields {
