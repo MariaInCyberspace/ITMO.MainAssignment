@@ -13,6 +13,7 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
+    <string name="prompt_name">Name</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
@@ -31,4 +32,7 @@
     <string name="all_items">All Items</string>
     <string name="search_hint">Enter your search here</string>
     <string name="mark_found_button_text">mark found</string>
+    <string name="notify_owner_item_found_button">notify owner that i found it</string>
+    <string name="enter_message_hint">Enter your message here</string>
+    <string name="send_message_button">send message</string>
 </resources>

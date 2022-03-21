@@ -8,8 +8,6 @@ import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,13 +20,17 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
+import com.mariaincyberspace.lostandfound_1.data.repository.MessageRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.databinding.ActivityMainBinding;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
-import com.mariaincyberspace.lostandfound_1.domain.repository.OnCallBack;
+import com.mariaincyberspace.lostandfound_1.domain.model.Message;
+import com.mariaincyberspace.lostandfound_1.domain.repository.MessageRepository;
+import com.mariaincyberspace.lostandfound_1.domain.repository.OnMessageCallBack;
 import com.mariaincyberspace.lostandfound_1.domain.use_case.SignOut;
 import com.mariaincyberspace.lostandfound_1.services.CoordinatesToPlaceService;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -92,6 +94,8 @@ public class MainActivity extends AppCompatActivity {
         ItemRepositoryImpl itemRepository = new ItemRepositoryImpl(getApplication(),
                 FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY));
 
+        MessageRepository messageRepository = new MessageRepositoryImpl(getApplication());
+
         itemRepository.getAllItems(items -> {
             Log.d("\nMy ActLog: all items: ", "");
             for (Item i: items) {
@@ -106,6 +110,22 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("Item: ", "'" + i.getName() + "', " + address);
             }
         });
+
+        messageRepository.getMessages("1647886610383aCDqeIQhrMfWJVsnax4RmhVZfev2", new OnMessageCallBack() {
+            @Override
+            public void onCallBack(List<Message> messages) {
+                Log.d("MessagesLog: ", "\n");
+                for (Message m: messages) {
+                    Log.d("Message: ", m.toString());
+                }
+            }
+        });
+
+
+
+        Date oldDate = new Date(1648328340000L);
+        Date date = new Date(1658328500000L);
+        Log.d("DateTest", oldDate + ", " + date);
 
     }
 

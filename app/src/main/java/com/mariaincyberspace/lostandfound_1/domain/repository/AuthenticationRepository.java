@@ -6,8 +6,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseUser;
 
 public interface AuthenticationRepository {
-    public Task<AuthResult> signUp(String email, String password);
-    public Task<AuthResult> signIn(String email, String password);
-    public void signOut();
-    public FirebaseUser getCurrentUser();
+    Task<AuthResult> signUp(String email, String password);
+    Task<AuthResult> signIn(String email, String password);
+    void signOut();
+    FirebaseUser getCurrentUser();
 }

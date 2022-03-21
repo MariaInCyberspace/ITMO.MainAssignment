@@ -15,14 +15,16 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
+import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.User;
 import com.mariaincyberspace.lostandfound_1.presentation.MainActivity;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText emailEditText, passwordEditText;
+    private EditText nameEditText, emailEditText, passwordEditText;
     private FirebaseAuth auth;
+    private UserRepositoryImpl userRepository;
     private FirebaseUser firebaseUser;
     private DatabaseReference reference;
     private LoginViewModel viewModel;
@@ -35,9 +37,11 @@ public class LoginActivity extends AppCompatActivity {
         viewModel = new LoginViewModel(getApplication());
         reference = FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.USER_KEY);
 
+        nameEditText = findViewById(R.id.editTextInputUserName);
         emailEditText = findViewById(R.id.editTextTextEmailAddress);
         passwordEditText = findViewById(R.id.editTextTextPassword);
         auth = FirebaseAuth.getInstance();
+        userRepository = new UserRepositoryImpl(getApplication());
     }
 
 
@@ -47,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
            viewModel.signUp(emailEditText.getText().toString(), passwordEditText.getText().toString())
                .addOnCompleteListener(task -> {
                    if (task.isSuccessful()) {
-                       addToDatabase();
+                       userRepository.addUser(new User(auth.getUid(), nameEditText.getText().toString() ));
                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
                        startActivity(i);
                    }
@@ -55,7 +59,7 @@ public class LoginActivity extends AppCompatActivity {
 
        }
        else {
-           viewModel.verifyInput(emailEditText, passwordEditText);
+           viewModel.verifyInput(nameEditText, emailEditText, passwordEditText);
        }
    }
 
@@ -72,25 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                     });
         }
         else {
-            viewModel.verifyInput(emailEditText, passwordEditText);
+            viewModel.verifyInput(nameEditText, emailEditText, passwordEditText);
         }
    }
-
-   // todo : add users/items repository
-   private void addToDatabase() {
-        firebaseUser = auth.getCurrentUser();
-        User user = new User(firebaseUser.getUid(), emailEditText.getText().toString(), passwordEditText.getText().toString());
-        reference.child(user.getUid()).setValue(user).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(LoginActivity.this, Literals.Toasts.VALUES_STORED,
-                        Toast.LENGTH_LONG).show();
-            }
-            else {
-                Toast.makeText(LoginActivity.this, Literals.Toasts.VALUES_NOT_STORED,
-                        Toast.LENGTH_LONG).show();
-            }
-        });
-    }
-
 
 }

@@ -3,21 +3,15 @@ package com.mariaincyberspace.lostandfound_1.domain.model;
 public class User {
 
     private String uid;
-    private String email;
-    private String password;
+    private String name;
 
-    public User(String uid, String email, String password) {
+    public String getName() {
+        return name;
+    }
+
+    public User(String uid, String name) {
         this.uid = uid;
-        this.email = email;
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getPassword() {
-        return password;
+        this.name = name;
     }
 
     public String getUid() {

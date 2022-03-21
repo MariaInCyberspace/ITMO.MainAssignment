@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LostAndFound_1">
         <activity
+            android:name=".presentation.chat.ChatActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.ui.item.ItemActivity"
             android:exported="false" />
         <!--

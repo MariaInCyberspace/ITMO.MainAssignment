@@ -13,7 +13,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.domain.repository.ItemRepository;
-import com.mariaincyberspace.lostandfound_1.domain.repository.OnCallBack;
+import com.mariaincyberspace.lostandfound_1.domain.repository.OnItemCallBack;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -36,22 +36,22 @@ public class ItemRepositoryImpl implements ItemRepository {
 
 
     @Override
-    public void getAllItems(OnCallBack onCallBack) {
+    public void getAllItems(OnItemCallBack onItemCallBack) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(Literals.Nodes.ITEM_KEY);
         Query query = reference.orderByChild(Literals.ItemFields.TIMESTAMP);
         Log.d("ItemRepoLog: ", "");
-        readFromDatabase(onCallBack::onCallBack, query);
+        readFromDatabase(onItemCallBack::onCallBack, query);
     }
 
     @Override
-    public void getCurrentUsersItems(String userId, OnCallBack onCallBack) {
+    public void getCurrentUsersItems(String userId, OnItemCallBack onItemCallBack) {
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
                 .child(Literals.Nodes.ITEM_KEY);
         Query query = reference.orderByChild(Literals.ItemFields.USER_ID)
                 .equalTo(userId);
         Log.d("ItemRepoLog: ", "");
-        readFromDatabase(onCallBack::onCallBack, query);
+        readFromDatabase(onItemCallBack::onCallBack, query);
     }
 
     @Override

@@ -24,13 +24,6 @@ public class LoginViewModel extends AndroidViewModel {
     private MutableLiveData<FirebaseUser> userData;
     private MutableLiveData<Boolean> loggedStatus;
 
-    public MutableLiveData<FirebaseUser> getUserData() {
-        return userData;
-    }
-
-    public MutableLiveData<Boolean> getLoggedStatus() {
-        return loggedStatus;
-    }
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
@@ -49,24 +42,29 @@ public class LoginViewModel extends AndroidViewModel {
     }
 
 
-    public void verifyInput(EditText email, EditText password) {
+    public void verifyInput(EditText name, EditText email, EditText password) {
         String values;
-        if (TextUtils.isEmpty(email.getText().toString())
+        if (TextUtils.isEmpty(name.getText().toString())
+                && TextUtils.isEmpty(email.getText().toString())
+                && TextUtils.isEmpty(password.getText().toString())) {
+            values = Literals.Toasts.INPUT_NAME_EMAIL_PASSWORD;
+        }
+        else if (TextUtils.isEmpty(email.getText().toString())
                 && TextUtils.isEmpty(password.getText().toString())) {
             values = Literals.Toasts.INPUT_EMAIL_AND_PASSWORD;
         }
         else {
-            values = TextUtils.isEmpty(email.getText().toString())
-                    ? Literals.Toasts.INPUT_EMAIL : Literals.Toasts.INPUT_PASSWORD;
+            if (TextUtils.isEmpty(name.getText().toString())) {
+                values = Literals.Toasts.INPUT_NAME;
+            } else {
+                values = TextUtils.isEmpty(email.getText().toString())
+                        ? Literals.Toasts.INPUT_EMAIL : Literals.Toasts.INPUT_PASSWORD;
+            }
+
         }
-
-
 
         Toast.makeText(getApplication(),
                 Literals.Toasts.INPUT_PROMPT + values, Toast.LENGTH_LONG).show();
     }
 
-    public void checkIfRegistered(String email) {
-        repository.checkIfRegistered(email);
-    }
 }
