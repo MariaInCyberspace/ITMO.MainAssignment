@@ -6,8 +6,6 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavGraph;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
@@ -16,7 +14,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.actions.ItemListIntents;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
@@ -52,7 +49,6 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
         authenticationRepository = new AuthenticationRepositoryImpl(requireActivity().getApplication());
         itemRepository = new ItemRepositoryImpl(requireActivity().getApplication(), reference);
         itemArrayList = new ArrayList<>();
-
     }
 
     @Override
@@ -84,6 +80,9 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                if (newText.isEmpty()) {
+                    onSearchViewEmpty();
+                }
                 filterText(newText);
                 return true;
             }
@@ -103,6 +102,7 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
             Toast.makeText(getActivity(), "No matches", Toast.LENGTH_LONG).show();
         } else {
             itemAdapter.updateItems(filteredList);
+            itemArrayList = filteredList;
         }
     }
 
@@ -121,7 +121,12 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
     public void onItemClick(int position) {
         Item item = itemArrayList.get(position);
         Intent intent = new Intent(requireActivity(), ItemActivity.class);
-        intent.putExtra("selected_item", item);
+        intent.putExtra(Literals.BundleName.SELECTED_ITEM, item);
         startActivity(intent);
     }
+
+    public void onSearchViewEmpty() {
+        getData();
+    }
+
 }

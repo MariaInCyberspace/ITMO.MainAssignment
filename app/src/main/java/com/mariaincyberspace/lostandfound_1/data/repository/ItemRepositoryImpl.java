@@ -3,9 +3,7 @@ package com.mariaincyberspace.lostandfound_1.data.repository;
 import android.app.Application;
 import android.util.Log;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -17,7 +15,6 @@ import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.domain.repository.ItemRepository;
 import com.mariaincyberspace.lostandfound_1.domain.repository.OnCallBack;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

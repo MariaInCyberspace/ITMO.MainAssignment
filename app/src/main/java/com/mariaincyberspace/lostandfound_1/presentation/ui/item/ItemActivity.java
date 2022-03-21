@@ -1,12 +1,10 @@
 package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.navigation.Navigation;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -37,7 +35,7 @@ public class ItemActivity extends AppCompatActivity {
         authenticationRepository = new AuthenticationRepositoryImpl(getApplication());
         itemRepository = new ItemRepositoryImpl(getApplication(),
                 FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY));
-        this.item = getIntent().getParcelableExtra("selected_item");
+        this.item = getIntent().getParcelableExtra(Literals.BundleName.SELECTED_ITEM);
         imageView = findViewById(R.id.imageView_ItemPictureIndividual);
         itemName = findViewById(R.id.textView_ItemNameIndividual);
         itemDescription = findViewById(R.id.textView_ItemDescriptionIndividual);
@@ -61,13 +59,10 @@ public class ItemActivity extends AppCompatActivity {
         if (!item.getUserId().equals(authenticationRepository.getCurrentUserId())) {
             deleteItemButton.setVisibility(View.INVISIBLE);
         } else {
-            deleteItemButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    itemRepository.deleteItem(item);
-                    Intent intent = new Intent(getApplication(), MainActivity.class);
-                    startActivity(intent);
-                }
+            deleteItemButton.setOnClickListener(v -> {
+                itemRepository.deleteItem(item);
+                Intent intent = new Intent(getApplication(), MainActivity.class);
+                startActivity(intent);
             });
         }
     }

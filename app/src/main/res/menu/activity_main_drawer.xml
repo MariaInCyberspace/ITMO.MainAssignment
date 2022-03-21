@@ -14,10 +14,6 @@
             android:id="@+id/nav_all_items"
             android:icon="@drawable/ic_all_items"
             android:title="@string/all_items" />
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
 
         <item
             android:id="@+id/nav_login"

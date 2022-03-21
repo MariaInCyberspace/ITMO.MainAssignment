@@ -41,8 +41,8 @@ public class Literals {
         public static final String API = "AIzaSyBVgj7xfYYcbq1TT0JebB5RIIBH0RPrlmE";
     }
 
-    public static class DateFormat {
-        public static final String DATE_FORMAT = "DD.MM.YYYY hh:mm";
+    public static class BundleName {
+        public static final String SELECTED_ITEM = "selected_item";
     }
 
 }

@@ -21,12 +21,6 @@
         tools:layout="@layout/fragment_item_list" >
     </fragment>
 
-    <fragment
-        android:id="@+id/nav_home"
-        android:name="com.mariaincyberspace.lostandfound_1.presentation.ui.home.HomeFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
-
 
     <activity
         android:id="@+id/nav_login"
