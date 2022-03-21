@@ -65,42 +65,29 @@
         app:layout_constraintTop_toBottomOf="@+id/textView_ItemNameIndividual"
         app:layout_constraintVertical_bias="0.183" />
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="24dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
+
+    <Button
+        android:id="@+id/button_MarkFoundItemIndividual"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1"
+        android:text="@string/notify_owner_item_found_button"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_ItemDescriptionIndividual"
-        app:layout_constraintVertical_bias="0.68">
+        app:layout_constraintTop_toBottomOf="@+id/textView_ItemDescriptionIndividual" />
 
-        <Button
-            android:id="@+id/button_MarkFoundItemIndividual"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="1"
-            android:text="@string/notify_owner_item_found_button" />
-
-        <ImageView
-            android:id="@+id/imageViewButton_DeleteItemIndividual"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:padding="5dp"
-            android:src="@drawable/ic_delete_item" />
-    </LinearLayout>
-
+    <ImageView
+        android:id="@+id/imageViewButton_DeleteItemIndividual"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:padding="5dp"
+        android:src="@drawable/ic_delete_item"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.94"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_MarkFoundItemIndividual" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
