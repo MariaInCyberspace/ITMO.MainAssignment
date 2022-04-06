@@ -43,11 +43,8 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     @Override
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         Message message = messagesList.get(position);
-        if (message.getSenderId().equals(finderId)) {
-            userRepository.getUserName(message.getSenderId(), name -> holder.userName.setText(name));
-        } else if (message.getSenderId().equals(ownerId)) {
-            userRepository.getUserName(message.getRecipientId(), name -> holder.userName.setText(name));
-        }
+
+        userRepository.getUserName(message.getSenderId(), name -> holder.userName.setText(name));
 
         holder.messageText.setText(message.getMessageText());
     }

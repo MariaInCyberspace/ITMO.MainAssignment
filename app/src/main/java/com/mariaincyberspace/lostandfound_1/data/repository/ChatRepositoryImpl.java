@@ -1,5 +1,6 @@
 package com.mariaincyberspace.lostandfound_1.data.repository;
 
+import android.os.Build;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
@@ -13,6 +14,8 @@ import com.mariaincyberspace.lostandfound_1.domain.repository.ChatRepository;
 import com.mariaincyberspace.lostandfound_1.domain.repository.OnChatCallBack;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ChatRepositoryImpl implements ChatRepository {
@@ -69,6 +72,9 @@ public class ChatRepositoryImpl implements ChatRepository {
                     chats.add(chat);
                     assert chat != null;
                     Log.d("AllChatLog:: ", chat.getOwnerId() + " " + chat.getFinderId());
+                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Collections.sort(chats, Comparator.comparing(Chat::getTimestamp).reversed());
                 }
 
                 firebaseCallback.onCallback(chats);

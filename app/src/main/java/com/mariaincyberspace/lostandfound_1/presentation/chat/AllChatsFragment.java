@@ -69,9 +69,6 @@ public class AllChatsFragment extends Fragment implements ChatAdapter.OnChatClic
             chatList = chats;
             if (!chatList.isEmpty()) {
                 allChats.addAll(chatList);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Collections.sort(allChats, Comparator.comparing(Chat::getTimestamp).reversed());
-                }
                 chatAdapter.updateChats(allChats);
                 chatList.clear();
             }
@@ -82,9 +79,6 @@ public class AllChatsFragment extends Fragment implements ChatAdapter.OnChatClic
             chatList = chats;
             if (!chatList.isEmpty()) {
                 allChats.addAll(chatList);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    Collections.sort(allChats, Comparator.comparing(Chat::getTimestamp).reversed());
-                }
                 chatAdapter.updateChats(allChats);
                 chatList.clear();
             }

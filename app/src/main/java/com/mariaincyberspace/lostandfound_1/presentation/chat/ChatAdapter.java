@@ -1,6 +1,7 @@
 package com.mariaincyberspace.lostandfound_1.presentation.chat;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,9 @@ import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
+
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder> {
