@@ -1,6 +1,5 @@
 package com.mariaincyberspace.lostandfound_1.data.repository;
 
-import android.app.Application;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,12 +20,12 @@ import java.util.HashMap;
 import java.util.List;
 
 public class MessageRepositoryImpl implements MessageRepository {
-    private Application application;
+    private final DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
+            .child(Literals.Nodes.MESSAGE_KEY);
     private List<Message> messages;
 
 
-    public MessageRepositoryImpl(Application application) {
-        this.application = application;
+    public MessageRepositoryImpl() {
         messages = new ArrayList<>();
     }
 
@@ -36,25 +35,19 @@ public class MessageRepositoryImpl implements MessageRepository {
 
     @Override
     public void addMessage(Message message) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child(Literals.Nodes.MESSAGE_KEY);
         String id = reference.push().getKey();
         assert id != null;
-        reference.child(id).setValue(message).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if (task.isSuccessful()) {
-                    Log.d("MessageRepoLog: ", "message added");
-                } else {
-                    Log.d("MessageRepoLog: ", "something went wrong");
-                }
+        reference.child(id).setValue(message).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d("MessageRepoLog: ", "message added");
+            } else {
+                Log.d("MessageRepoLog: ", "something went wrong");
             }
         });
     }
 
     @Override
     public void getMessages(String chatId, OnMessageCallBack onMessageCallBack) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Literals.Nodes.MESSAGE_KEY);
         Query query = reference.orderByChild(Literals.MessageFields.CHAT_ID).equalTo(chatId);
         readData(onMessageCallBack::onCallBack, query);
     }

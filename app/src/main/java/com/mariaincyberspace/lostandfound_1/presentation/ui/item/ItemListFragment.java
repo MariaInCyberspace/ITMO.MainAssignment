@@ -3,7 +3,6 @@ package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,11 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
-import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
@@ -29,9 +24,7 @@ import java.util.Locale;
 public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClickListener {
 
     private RecyclerView recyclerView;
-    private AuthenticationRepositoryImpl authenticationRepository;
     private ItemRepositoryImpl itemRepository;
-    private DatabaseReference reference;
     private ItemAdapter itemAdapter;
     private List<Item> itemArrayList;
     private SearchView searchView;
@@ -45,9 +38,7 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.d("ItemListLog: ", "");
-        reference = FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY);
-        authenticationRepository = new AuthenticationRepositoryImpl(requireActivity().getApplication());
-        itemRepository = new ItemRepositoryImpl(requireActivity().getApplication(), reference);
+        itemRepository = new ItemRepositoryImpl();
         itemArrayList = new ArrayList<>();
     }
 

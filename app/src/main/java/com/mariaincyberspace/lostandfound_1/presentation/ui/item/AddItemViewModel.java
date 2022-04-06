@@ -3,17 +3,12 @@ package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 import android.app.Application;
 import android.content.ContentResolver;
 import android.net.Uri;
-import android.text.format.DateFormat;
 import android.webkit.MimeTypeMap;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
@@ -21,28 +16,20 @@ import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.domain.model.Location;
 import com.mariaincyberspace.lostandfound_1.services.CoordinatesToPlaceService;
-import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
-import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.util.Date;
 
 public class AddItemViewModel extends AndroidViewModel {
-    // TODO: Implement the ViewModel
     private MutableLiveData<String> mText;
     private AuthenticationRepositoryImpl authenticationRepository;
     private ItemRepositoryImpl itemRepository;
-    private DatabaseReference reference;
     private StorageReference storage;
 
 
     public AddItemViewModel(@NonNull Application application) {
         super(application);
-        reference = FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY);
         storage = FirebaseStorage.getInstance().getReference();
-        authenticationRepository = new AuthenticationRepositoryImpl(getApplication());
-        itemRepository = new ItemRepositoryImpl(application, reference);
+        authenticationRepository = new AuthenticationRepositoryImpl();
+        itemRepository = new ItemRepositoryImpl();
         mText = new MutableLiveData<>();
 
         mText.setValue("Please provide a picture of what you lost and it's last known location");

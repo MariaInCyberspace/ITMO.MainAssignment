@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.firebase.auth.FirebaseAuth;
-import com.mariaincyberspace.lostandfound_1.MyApp;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Message;
@@ -27,7 +25,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     public MessageAdapter(Context context, List<Message> messagesList, String userId) {
         this.context = context;
         this.messagesList = messagesList;
-        userRepository = new UserRepositoryImpl(MyApp.getInstance());
+        userRepository = new UserRepositoryImpl();
         currentUserId = FirebaseAuth.getInstance().getUid();
         transferredId = userId;
         userRepository.getUserName(userId, name -> mName1 = name);

@@ -5,17 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.mariaincyberspace.lostandfound_1.MyApp;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
-import com.mariaincyberspace.lostandfound_1.domain.repository.OnUserCallBack;
-import com.mariaincyberspace.lostandfound_1.domain.repository.UserRepository;
-
 import java.util.List;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder> {
@@ -29,7 +23,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder> {
         this.context = context;
         this.chatList = chatList;
         this.mOnChatClickListener = mOnChatClickListener;
-        userRepository = new UserRepositoryImpl(MyApp.getInstance());
+        userRepository = new UserRepositoryImpl();
     }
 
     @NonNull

@@ -4,14 +4,9 @@ import android.app.Application;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
-import androidx.lifecycle.MutableLiveData;
-
-import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseUser;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
@@ -21,15 +16,11 @@ import com.google.android.gms.tasks.Task;
 public class LoginViewModel extends AndroidViewModel {
 
     private AuthenticationRepositoryImpl repository;
-    private MutableLiveData<FirebaseUser> userData;
-    private MutableLiveData<Boolean> loggedStatus;
 
 
     public LoginViewModel(@NonNull Application application) {
         super(application);
-        repository = new AuthenticationRepositoryImpl(application);
-        userData = repository.getUserMutableLiveData();
-        loggedStatus = repository.getUserLoggedMutableLiveData();
+        repository = new AuthenticationRepositoryImpl();
     }
 
     public Task<AuthResult> signUp(String email, String password) {

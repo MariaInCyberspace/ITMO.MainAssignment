@@ -1,7 +1,6 @@
 package com.mariaincyberspace.lostandfound_1.presentation.ui.item;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,16 +8,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.ChatRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.ItemRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
-import com.mariaincyberspace.lostandfound_1.domain.repository.ChatRepository;
 import com.mariaincyberspace.lostandfound_1.presentation.MainActivity;
 import com.mariaincyberspace.lostandfound_1.presentation.chat.ChatActivity;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
@@ -40,10 +36,9 @@ public class ItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_item);
-        authenticationRepository = new AuthenticationRepositoryImpl(getApplication());
-        itemRepository = new ItemRepositoryImpl(getApplication(),
-                FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY));
-        chatRepository = new ChatRepositoryImpl(getApplication());
+        authenticationRepository = new AuthenticationRepositoryImpl();
+        itemRepository = new ItemRepositoryImpl();
+        chatRepository = new ChatRepositoryImpl();
         this.item = getIntent().getParcelableExtra(Literals.BundleName.SELECTED_ITEM);
         imageView = findViewById(R.id.imageView_ItemPictureIndividual);
         itemName = findViewById(R.id.textView_ItemNameIndividual);

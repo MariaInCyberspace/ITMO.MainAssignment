@@ -10,11 +10,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.FirebaseDatabase;
 import com.mariaincyberspace.lostandfound_1.R;
 import com.mariaincyberspace.lostandfound_1.data.repository.MessageRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
-import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
 import com.mariaincyberspace.lostandfound_1.domain.model.Message;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 
@@ -40,8 +38,8 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        messageRepository = new MessageRepositoryImpl(getApplication());
-        userRepository = new UserRepositoryImpl(getApplication());
+        messageRepository = new MessageRepositoryImpl();
+        userRepository = new UserRepositoryImpl();
         messageList = new ArrayList<>();
         chatId = getIntent().getStringExtra(Literals.ChatFields.CHAT_ID);
         ownerId = getIntent().getStringExtra(Literals.ChatFields.OWNER_ID);

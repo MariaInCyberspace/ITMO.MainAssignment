@@ -13,6 +13,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mariaincyberspace.lostandfound_1.MyApp;
 import com.mariaincyberspace.lostandfound_1.domain.model.User;
 import com.mariaincyberspace.lostandfound_1.domain.repository.OnUserCallBack;
 import com.mariaincyberspace.lostandfound_1.domain.repository.UserRepository;
@@ -23,9 +24,11 @@ import java.util.HashMap;
 public class UserRepositoryImpl implements UserRepository {
 
     private Application application;
+    private final DatabaseReference reference =
+            FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.USER_KEY);
 
-    public UserRepositoryImpl(Application application) {
-        this.application = application;
+    public UserRepositoryImpl() {
+        this.application = MyApp.getInstance();
     }
 
     private interface FirebaseCallBack {
@@ -34,7 +37,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void addUser(User user) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.USER_KEY);
         String id = reference.push().getKey();
         assert id != null;
         reference.child(id).setValue(user).addOnCompleteListener(task -> {
@@ -50,7 +52,6 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void deleteUser(User user) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.USER_KEY);
         Query query = reference.orderByChild(user.getUid()).equalTo(user.getUid());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -92,7 +93,6 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     public void getUserName(String userId, OnUserCallBack onUserCallBack) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.USER_KEY);
         Query query = reference.orderByChild(Literals.UserFields.UID).equalTo(userId);
         readFromDatabase(onUserCallBack::onCallBack, query);
     }

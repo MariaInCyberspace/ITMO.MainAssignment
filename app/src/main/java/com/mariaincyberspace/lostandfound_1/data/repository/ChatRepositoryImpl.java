@@ -1,6 +1,5 @@
 package com.mariaincyberspace.lostandfound_1.data.repository;
 
-import android.app.Application;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.firebase.database.DataSnapshot;
@@ -20,11 +19,11 @@ import java.util.List;
 
 public class ChatRepositoryImpl implements ChatRepository {
 
-    private Application application;
+    private final DatabaseReference reference =
+            FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.CHAT_KEY);
     List<Chat> chats;
 
-    public ChatRepositoryImpl(Application application) {
-        this.application = application;
+    public ChatRepositoryImpl() {
         chats = new ArrayList<>();
     }
 
@@ -34,8 +33,6 @@ public class ChatRepositoryImpl implements ChatRepository {
 
     @Override
     public void addChat(Chat chat) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child(Literals.Nodes.CHAT_KEY);
         String id = chat.getOwnerId() + chat.getFinderId();
         assert id != null;
         reference.child(id).setValue(chat).addOnCompleteListener(task -> {
@@ -50,7 +47,6 @@ public class ChatRepositoryImpl implements ChatRepository {
 
     @Override
     public void getOwnerChats(String userId, OnChatCallBack onChatCallBack) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference((Literals.Nodes.CHAT_KEY));
         Query query = reference.orderByChild(Literals.ChatFields.OWNER_ID).equalTo(userId);
         readData(onChatCallBack::onCallBack, query);
         Log.d("AllChatsLog:: ", userId);
@@ -58,7 +54,6 @@ public class ChatRepositoryImpl implements ChatRepository {
 
     @Override
     public void getFinderChats(String userId, OnChatCallBack onChatCallBack) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference(Literals.Nodes.CHAT_KEY);
         Query query = reference.orderByChild(Literals.ChatFields.FINDER_ID).equalTo(userId);
         readData(onChatCallBack::onCallBack, query);
     }

@@ -3,7 +3,6 @@ package com.mariaincyberspace.lostandfound_1.domain.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.sql.Timestamp;
 
 public class Item implements Parcelable {
 

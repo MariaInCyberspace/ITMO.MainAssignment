@@ -11,6 +11,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mariaincyberspace.lostandfound_1.MyApp;
 import com.mariaincyberspace.lostandfound_1.domain.model.Item;
 import com.mariaincyberspace.lostandfound_1.domain.repository.ItemRepository;
 import com.mariaincyberspace.lostandfound_1.domain.repository.OnItemCallBack;
@@ -21,12 +22,12 @@ import java.util.List;
 
 public class ItemRepositoryImpl implements ItemRepository {
     private Application application;
-    private final DatabaseReference itemRef;
+    private final DatabaseReference itemRef =
+            FirebaseDatabase.getInstance().getReference().child(Literals.Nodes.ITEM_KEY);
     List<Item> items;
 
-    public ItemRepositoryImpl(Application application, DatabaseReference itemRef) {
-        this.application = application;
-        this.itemRef = itemRef;
+    public ItemRepositoryImpl() {
+        this.application = MyApp.getInstance();
         items = new ArrayList<>();
     }
 
@@ -37,18 +38,14 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public void getAllItems(OnItemCallBack onItemCallBack) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child(Literals.Nodes.ITEM_KEY);
-        Query query = reference.orderByChild(Literals.ItemFields.TIMESTAMP);
+        Query query = itemRef.orderByChild(Literals.ItemFields.TIMESTAMP);
         Log.d("ItemRepoLog: ", "");
         readFromDatabase(onItemCallBack::onCallBack, query);
     }
 
     @Override
     public void getCurrentUsersItems(String userId, OnItemCallBack onItemCallBack) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child(Literals.Nodes.ITEM_KEY);
-        Query query = reference.orderByChild(Literals.ItemFields.USER_ID)
+        Query query = itemRef.orderByChild(Literals.ItemFields.USER_ID)
                 .equalTo(userId);
         Log.d("ItemRepoLog: ", "");
         readFromDatabase(onItemCallBack::onCallBack, query);
@@ -115,9 +112,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
     @Override
     public void deleteItem(Item item) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference()
-                .child(Literals.Nodes.ITEM_KEY);
-        Query query = reference.orderByChild(Literals.ItemFields.TIMESTAMP)
+        Query query = itemRef.orderByChild(Literals.ItemFields.TIMESTAMP)
                 .equalTo(item.getTimestamp());
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

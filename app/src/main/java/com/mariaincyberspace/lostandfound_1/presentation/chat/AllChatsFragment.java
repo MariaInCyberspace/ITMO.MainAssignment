@@ -33,8 +33,8 @@ public class AllChatsFragment extends Fragment implements ChatAdapter.OnChatClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        authenticationRepository = new AuthenticationRepositoryImpl(requireActivity().getApplication());
-        chatRepository = new ChatRepositoryImpl(requireActivity().getApplication());
+        authenticationRepository = new AuthenticationRepositoryImpl();
+        chatRepository = new ChatRepositoryImpl();
         chatList = new ArrayList<>();
         allChats = new ArrayList<>();
 

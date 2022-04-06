@@ -1,12 +1,10 @@
 package com.mariaincyberspace.lostandfound_1.presentation;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.WindowManager;
-
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.mariaincyberspace.lostandfound_1.R;
@@ -27,15 +25,12 @@ public class LogoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_logo);
 
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                FirebaseUser currentUser = auth.getCurrentUser();
-                Intent i = (currentUser != null) ? new Intent(LogoActivity.this, MainActivity.class)
-                        : new Intent(LogoActivity.this, LoginActivity.class);
-                startActivity(i);
-                finish();
-            }
+        new Handler().postDelayed(() -> {
+            FirebaseUser currentUser = auth.getCurrentUser();
+            Intent i = (currentUser != null) ? new Intent(LogoActivity.this, MainActivity.class)
+                    : new Intent(LogoActivity.this, LoginActivity.class);
+            startActivity(i);
+            finish();
         }, SPLASH_SCREEN_TIME_OUT);
     }
 }
