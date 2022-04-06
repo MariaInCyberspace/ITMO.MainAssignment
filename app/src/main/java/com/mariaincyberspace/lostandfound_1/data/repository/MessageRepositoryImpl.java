@@ -52,22 +52,13 @@ public class MessageRepositoryImpl implements MessageRepository {
         readData(onMessageCallBack::onCallBack, query);
     }
 
-    public void readData(final FirebaseCallback firebaseCallback, Query query) {
+    private void readData(final FirebaseCallback firebaseCallback, Query query) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 messages.clear();
                 for (DataSnapshot ds: snapshot.getChildren()) {
-                    Message message = new Message();
-                    GenericTypeIndicator<HashMap<String, Object>> objType =
-                            new GenericTypeIndicator<HashMap<String, Object>>() {};
-                    HashMap<String, Object> f = ds.getValue(objType);
-                    assert f != null;
-                    message.setChatId((String) f.get(Literals.MessageFields.CHAT_ID));
-                    message.setMessageText((String) f.get(Literals.MessageFields.MESSAGE_TEXT));
-                    message.setTimestamp((Long) f.get(Literals.MessageFields.TIMESTAMP));
-                    message.setSenderId((String) f.get(Literals.MessageFields.SENDER_ID));
-                    message.setRecipientId((String) f.get(Literals.MessageFields.RECIPIENT_ID));
+                    Message message = ds.getValue(Message.class);
                     messages.add(message);
                 }
 

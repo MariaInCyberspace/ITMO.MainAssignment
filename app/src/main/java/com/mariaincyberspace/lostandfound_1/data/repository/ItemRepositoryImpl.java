@@ -8,7 +8,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mariaincyberspace.lostandfound_1.MyApp;
@@ -17,7 +16,6 @@ import com.mariaincyberspace.lostandfound_1.domain.repository.ItemRepository;
 import com.mariaincyberspace.lostandfound_1.domain.repository.OnItemCallBack;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ItemRepositoryImpl implements ItemRepository {
@@ -67,7 +65,7 @@ public class ItemRepositoryImpl implements ItemRepository {
         });
     }
 
-    public void readFromDatabase(final FirebaseCallback firebaseCallback, Query query) {
+    private void readFromDatabase(final FirebaseCallback firebaseCallback, Query query) {
 
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
@@ -76,17 +74,7 @@ public class ItemRepositoryImpl implements ItemRepository {
 
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     try {
-                        Item retrievedItem = new Item();
-                        GenericTypeIndicator<HashMap<String, Object>> objType =
-                                new GenericTypeIndicator<HashMap<String, Object>>() {};
-                        HashMap<String, Object> f = ds.getValue(objType);
-                        retrievedItem.setName((String)f.get(Literals.ItemFields.NAME));
-                        retrievedItem.setUserId((String) f.get(Literals.ItemFields.USER_ID));
-                        retrievedItem.setLatitude((Double) f.get(Literals.ItemFields.LATITUDE));
-                        retrievedItem.setLongitude((Double) f.get(Literals.ItemFields.LONGITUDE));
-                        retrievedItem.setPhotoUri((String) f.get(Literals.ItemFields.PHOTO_URI));
-                        retrievedItem.setAddress((String) f.get(Literals.ItemFields.ADDRESS));
-                        retrievedItem.setTimestamp((Long) f.get(Literals.ItemFields.TIMESTAMP));
+                        Item retrievedItem = ds.getValue(Item.class);
                         items.add(retrievedItem);
                     }
                     catch (NullPointerException ex) {

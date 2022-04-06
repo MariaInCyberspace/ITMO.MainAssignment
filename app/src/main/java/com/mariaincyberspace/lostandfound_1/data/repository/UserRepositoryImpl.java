@@ -69,7 +69,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
 
-    public void readFromDatabase(FirebaseCallBack firebaseCallBack, Query query) {
+    private void readFromDatabase(FirebaseCallBack firebaseCallBack, Query query) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             String userName;
             @Override

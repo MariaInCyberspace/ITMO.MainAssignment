@@ -6,7 +6,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
@@ -14,7 +13,6 @@ import com.mariaincyberspace.lostandfound_1.domain.repository.ChatRepository;
 import com.mariaincyberspace.lostandfound_1.domain.repository.OnChatCallBack;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class ChatRepositoryImpl implements ChatRepository {
@@ -59,22 +57,16 @@ public class ChatRepositoryImpl implements ChatRepository {
     }
 
 
-    public void readData(final FirebaseCallback firebaseCallback, Query query) {
+    private void readData(final FirebaseCallback firebaseCallback, Query query) {
         ValueEventListener valueEventListener = new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 chats.clear();
 
                 for (DataSnapshot ds: snapshot.getChildren()) {
-                    Chat chat = new Chat();
-                    GenericTypeIndicator<HashMap<String, Object>> objType =
-                            new GenericTypeIndicator<HashMap<String, Object>>() {};
-                    HashMap<String, Object> f = ds.getValue(objType);
-                    assert f != null;
-                    chat.setChatId((String) f.get(Literals.ChatFields.CHAT_ID));
-                    chat.setOwnerId((String) f.get(Literals.ChatFields.OWNER_ID));
-                    chat.setFinderId((String) f.get(Literals.ChatFields.FINDER_ID));
+                    Chat chat = ds.getValue(Chat.class);
                     chats.add(chat);
+                    assert chat != null;
                     Log.d("AllChatLog:: ", chat.getOwnerId() + " " + chat.getFinderId());
                 }
 
