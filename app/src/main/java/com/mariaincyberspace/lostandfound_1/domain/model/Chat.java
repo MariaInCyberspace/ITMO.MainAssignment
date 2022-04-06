@@ -7,13 +7,15 @@ public class Chat implements Parcelable {
     private String chatId;
     private String ownerId;
     private String finderId;
+    private Long timestamp;
 
     public Chat() { }
 
-    public Chat(String chatId, String ownerId, String finderId) {
+    public Chat(String chatId, String ownerId, String finderId, Long timestamp) {
         this.chatId = chatId;
         this.ownerId = ownerId;
         this.finderId = finderId;
+        this.timestamp = timestamp;
     }
 
     protected Chat(Parcel in) {
@@ -45,6 +47,8 @@ public class Chat implements Parcelable {
     public String getFinderId() {
         return finderId;
     }
+
+    public Long getTimestamp() { return timestamp; }
 
     public void setChatId(String chatId) {
         this.chatId = chatId;

@@ -1,6 +1,7 @@
 package com.mariaincyberspace.lostandfound_1.presentation.chat;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +16,8 @@ import com.mariaincyberspace.lostandfound_1.data.repository.ChatRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class AllChatsFragment extends Fragment implements ChatAdapter.OnChatClickListener {
@@ -66,6 +69,9 @@ public class AllChatsFragment extends Fragment implements ChatAdapter.OnChatClic
             chatList = chats;
             if (!chatList.isEmpty()) {
                 allChats.addAll(chatList);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Collections.sort(allChats, Comparator.comparing(Chat::getTimestamp).reversed());
+                }
                 chatAdapter.updateChats(allChats);
                 chatList.clear();
             }
@@ -76,6 +82,9 @@ public class AllChatsFragment extends Fragment implements ChatAdapter.OnChatClic
             chatList = chats;
             if (!chatList.isEmpty()) {
                 allChats.addAll(chatList);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    Collections.sort(allChats, Comparator.comparing(Chat::getTimestamp).reversed());
+                }
                 chatAdapter.updateChats(allChats);
                 chatList.clear();
             }

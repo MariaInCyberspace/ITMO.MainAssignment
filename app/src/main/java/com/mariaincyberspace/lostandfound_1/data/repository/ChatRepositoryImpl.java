@@ -46,6 +46,7 @@ public class ChatRepositoryImpl implements ChatRepository {
     @Override
     public void getOwnerChats(String userId, OnChatCallBack onChatCallBack) {
         Query query = reference.orderByChild(Literals.ChatFields.OWNER_ID).equalTo(userId);
+
         readData(onChatCallBack::onCallBack, query);
         Log.d("AllChatsLog:: ", userId);
     }

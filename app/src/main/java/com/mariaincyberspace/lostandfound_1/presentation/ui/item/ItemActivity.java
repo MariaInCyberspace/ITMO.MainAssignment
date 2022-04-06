@@ -86,7 +86,7 @@ public class ItemActivity extends AppCompatActivity {
             String ownerId = item.getUserId();
             String finderId = authenticationRepository.getCurrentUserId();
             String chatId = ownerId + finderId;
-            Chat chat = new Chat(chatId, ownerId, finderId);
+            Chat chat = new Chat(chatId, ownerId, finderId, System.currentTimeMillis());
             chatRepository.addChat(chat);
             intent.putExtra(Literals.ChatFields.CHAT_ID, chat.getChatId());
             intent.putExtra(Literals.ChatFields.OWNER_ID, chat.getOwnerId());

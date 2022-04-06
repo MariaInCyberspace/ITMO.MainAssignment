@@ -2,21 +2,18 @@ package com.mariaincyberspace.lostandfound_1.data.repository;
 
 import android.util.Log;
 import androidx.annotation.NonNull;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.GenericTypeIndicator;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
 import com.mariaincyberspace.lostandfound_1.domain.model.Message;
 import com.mariaincyberspace.lostandfound_1.domain.repository.MessageRepository;
 import com.mariaincyberspace.lostandfound_1.domain.repository.OnMessageCallBack;
 import com.mariaincyberspace.lostandfound_1.utils.Literals;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MessageRepositoryImpl implements MessageRepository {
@@ -37,8 +34,12 @@ public class MessageRepositoryImpl implements MessageRepository {
     public void addMessage(Message message) {
         String id = reference.push().getKey();
         assert id != null;
-        reference.child(id).setValue(message).addOnCompleteListener(task -> {
+        reference.child(message.getChatId()).child(id).setValue(message).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
+                Chat chat = new Chat(message.getChatId(), message.getRecipientId(),
+                        message.getSenderId(), message.getTimestamp());
+                ChatRepositoryImpl chatRepository = new ChatRepositoryImpl();
+                chatRepository.addChat(chat);
                 Log.d("MessageRepoLog: ", "message added");
             } else {
                 Log.d("MessageRepoLog: ", "something went wrong");
@@ -48,7 +49,7 @@ public class MessageRepositoryImpl implements MessageRepository {
 
     @Override
     public void getMessages(String chatId, OnMessageCallBack onMessageCallBack) {
-        Query query = reference.orderByChild(Literals.MessageFields.CHAT_ID).equalTo(chatId);
+        Query query = reference.child(chatId).orderByChild(Literals.MessageFields.TIMESTAMP);
         readData(onMessageCallBack::onCallBack, query);
     }
 
