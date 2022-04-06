@@ -75,6 +75,7 @@ public class ChatActivity extends AppCompatActivity {
             messageRepository.addMessage(message);
             getData();
             Log.d("ClickLog: ", "clicked");
+            messageText.setText("");
         };
     }
 }
