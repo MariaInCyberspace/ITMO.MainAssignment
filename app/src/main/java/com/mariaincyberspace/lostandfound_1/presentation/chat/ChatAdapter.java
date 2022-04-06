@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.mariaincyberspace.lostandfound_1.R;
+import com.mariaincyberspace.lostandfound_1.data.repository.AuthenticationRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.data.repository.UserRepositoryImpl;
 import com.mariaincyberspace.lostandfound_1.domain.model.Chat;
 import java.util.List;
@@ -36,7 +37,13 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatHolder> {
     @Override
     public void onBindViewHolder(@NonNull ChatHolder holder, int position) {
         Chat chat = chatList.get(position);
-        userRepository.getUserName(chat.getOwnerId(), name -> holder.chatIdentifier.setText(name));
+        AuthenticationRepositoryImpl authenticationRepository = new AuthenticationRepositoryImpl();
+        String userId = authenticationRepository.getCurrentUserId();
+        if (userId.equals(chat.getOwnerId())) {
+            userRepository.getUserName(chat.getFinderId(), name -> holder.chatIdentifier.setText(name));
+        } else if (userId.equals(chat.getFinderId())) {
+            userRepository.getUserName(chat.getOwnerId(), name -> holder.chatIdentifier.setText(name));
+        }
     }
 
     @Override

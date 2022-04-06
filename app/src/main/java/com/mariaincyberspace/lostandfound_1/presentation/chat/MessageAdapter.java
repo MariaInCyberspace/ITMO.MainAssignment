@@ -19,16 +19,18 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     List<Message> messagesList;
     UserRepositoryImpl userRepository;
     String currentUserId;
-    String transferredId;
+    String finderId;
+    String ownerId;
     static String mName1;
 
-    public MessageAdapter(Context context, List<Message> messagesList, String userId) {
+    public MessageAdapter(Context context, List<Message> messagesList, String finderId, String ownerId) {
         this.context = context;
         this.messagesList = messagesList;
         userRepository = new UserRepositoryImpl();
         currentUserId = FirebaseAuth.getInstance().getUid();
-        transferredId = userId;
-        userRepository.getUserName(userId, name -> mName1 = name);
+        this.finderId = finderId;
+        this.ownerId = ownerId;
+        userRepository.getUserName(finderId, name -> mName1 = name);
     }
 
     @NonNull
@@ -41,9 +43,9 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
     @Override
     public void onBindViewHolder(@NonNull MessageHolder holder, int position) {
         Message message = messagesList.get(position);
-        if (currentUserId.equals(transferredId)) {
+        if (message.getSenderId().equals(finderId)) {
             userRepository.getUserName(message.getSenderId(), name -> holder.userName.setText(name));
-        } else {
+        } else if (message.getSenderId().equals(ownerId)) {
             userRepository.getUserName(message.getRecipientId(), name -> holder.userName.setText(name));
         }
 
