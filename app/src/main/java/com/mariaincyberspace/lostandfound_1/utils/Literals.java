@@ -32,6 +32,7 @@ public class Literals {
         public static final String USER_DELETED = "User deleted";
     }
 
+    // Needed to order by a specific field while retrieving data from Firebase Realtime Database
     public static class ItemFields {
 
         public static final String NAME = "name";
