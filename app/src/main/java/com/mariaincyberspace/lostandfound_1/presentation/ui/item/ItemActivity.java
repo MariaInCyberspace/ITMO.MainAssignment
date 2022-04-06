@@ -32,10 +32,7 @@ public class ItemActivity extends AppCompatActivity {
     private ItemRepositoryImpl itemRepository;
     private ChatRepositoryImpl chatRepository;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item);
+    private void setFields() {
         authenticationRepository = new AuthenticationRepositoryImpl();
         itemRepository = new ItemRepositoryImpl();
         chatRepository = new ChatRepositoryImpl();
@@ -47,14 +44,21 @@ public class ItemActivity extends AppCompatActivity {
         notifyOwnerButton = findViewById(R.id.button_MarkFoundItemIndividual);
         goBackButton = findViewById(R.id.imageView_GoBackButton);
         goBackButton.setOnClickListener(getOnClickListenerGoBackButton());
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_item);
+        setFields();
         checkIfItemBelongsToCurrentUser();
         Glide.with(getApplication()).load(item.getPhotoUri()).into(imageView);
 
-        setWithValues();
+        setItemNameAndDescription();
 
     }
 
-    public void setWithValues() {
+    private void setItemNameAndDescription() {
         itemName.setText(item.getName());
         CharSequence sequence = "Lost in " + item.getAddress();
         itemDescription.setText(sequence);

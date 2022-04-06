@@ -29,15 +29,25 @@ public class AllChatsFragment extends Fragment implements ChatAdapter.OnChatClic
 
     public AllChatsFragment() { }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
+    private void setFields() {
         authenticationRepository = new AuthenticationRepositoryImpl();
         chatRepository = new ChatRepositoryImpl();
         chatList = new ArrayList<>();
         allChats = new ArrayList<>();
+    }
 
+    private void setRecyclerView(View view) {
+        recyclerView = view.findViewById(R.id.recyclerView_AllChatsFragment);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        chatAdapter = new ChatAdapter(getContext(), chatList, this);
+        recyclerView.setAdapter(chatAdapter);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setFields();
     }
 
     @Override
@@ -45,17 +55,13 @@ public class AllChatsFragment extends Fragment implements ChatAdapter.OnChatClic
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_all_chats, container, false);
-        recyclerView = view.findViewById(R.id.recyclerView_AllChatsFragment);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        chatAdapter = new ChatAdapter(getContext(), chatList, this);
-        recyclerView.setAdapter(chatAdapter);
+        setRecyclerView(view);
         getData();
         // Inflate the layout for this fragment
         return view;
     }
 
-    public void getData() {
+    private void getData() {
         chatRepository.getOwnerChats(authenticationRepository.getCurrentUserId(), chats -> {
             chatList = chats;
             if (!chatList.isEmpty()) {

@@ -19,19 +19,22 @@ public class LoginActivity extends AppCompatActivity {
     private UserRepositoryImpl userRepository;
     private LoginViewModel viewModel;
 
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+    private void setFields() {
         viewModel = new LoginViewModel(getApplication());
-
         nameEditText = findViewById(R.id.editTextInputUserName);
         emailEditText = findViewById(R.id.editTextTextEmailAddress);
         passwordEditText = findViewById(R.id.editTextTextPassword);
         auth = FirebaseAuth.getInstance();
         userRepository = new UserRepositoryImpl();
     }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        setFields();
+    }
+
 
 
    public void onClickSignUp(View view) {

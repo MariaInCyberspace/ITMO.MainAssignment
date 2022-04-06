@@ -34,10 +34,7 @@ public class ChatActivity extends AppCompatActivity {
     private Message message;
     private EditText messageText;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+    private void setFields() {
         messageRepository = new MessageRepositoryImpl();
         userRepository = new UserRepositoryImpl();
         messageList = new ArrayList<>();
@@ -51,13 +48,20 @@ public class ChatActivity extends AppCompatActivity {
         recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
         messageAdapter = new MessageAdapter(this, messageList, finderId);
         recyclerViewMessages.setAdapter(messageAdapter);
+    }
 
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_chat);
+        setFields();
         getData();
         sendMessageButton.setOnClickListener(getOnClickListenerSendMessage());
     }
 
 
-    public void getData() {
+    private void getData() {
         messageRepository.getMessages(chatId, messages -> {
             messageList = messages;
             messageAdapter.updateMessages(messageList);

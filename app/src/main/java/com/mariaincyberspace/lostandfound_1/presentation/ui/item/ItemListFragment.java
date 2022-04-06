@@ -42,23 +42,29 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
         itemArrayList = new ArrayList<>();
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+    private void setRecyclerView(View view) {
         recyclerView = view.findViewById(R.id.recyclerView_ItemList);
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         Log.d("ItemListLog: ", "2");
         itemAdapter = new ItemAdapter(getContext(), itemArrayList, this);
         recyclerView.setAdapter(itemAdapter);
-        getData();
+    }
+
+    private void setSearchView(View view) {
         searchView = view.findViewById(R.id.searchView_SearchItem);
         searchView.clearFocus();
         searchView.setOnQueryTextListener(getOnQueryTextListener());
-        Log.d("ItemListLog: ", "3");
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_item_list, container, false);
+        setRecyclerView(view);
+        getData();
+        setSearchView(view);
         return view;
     }
 
@@ -97,7 +103,7 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
         }
     }
 
-    public void getData() {
+    private void getData() {
         itemRepository.getAllItems(items -> {
             Log.d("ItemListLog: ", "4");
             itemArrayList = items;
@@ -116,7 +122,7 @@ public class ItemListFragment extends Fragment implements ItemAdapter.OnItemClic
         startActivity(intent);
     }
 
-    public void onSearchViewEmpty() {
+    private void onSearchViewEmpty() {
         getData();
     }
 

@@ -12,7 +12,7 @@ import com.mariaincyberspace.lostandfound_1.presentation.auth.LoginActivity;
 
 public class LogoActivity extends AppCompatActivity {
 
-    private static int SPLASH_SCREEN_TIME_OUT = 3000;
+    private static final int SPLASH_SCREEN_TIME_OUT = 3000;
     private FirebaseAuth auth;
 
 
