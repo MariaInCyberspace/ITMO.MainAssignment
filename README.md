@@ -1,5 +1,5 @@
 # ITMO.MainAssignment
-Learning Android development
+Learning Android development | Lost & Found Android app
 
 This is an app that helps people that have lost something find it again
 
